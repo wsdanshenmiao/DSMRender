@@ -29,7 +29,6 @@ namespace DSM {
 
 			constexpr MatrixBase() noexcept;
 			constexpr explicit MatrixBase(const T& v) noexcept;
-			MatrixBase& operator=(const MatrixBase& other) = default;
 			Derived& operator=(std::initializer_list<T> list);
 
 			constexpr std::size_t size() const noexcept;
@@ -59,9 +58,12 @@ namespace DSM {
 			Derived& operator*=(const T& v);
 
 			static constexpr Derived identity() noexcept;
+			template<typename Ret, typename Left, typename Right>
+			static constexpr Ret _MultiplicaeMatrix(const Left& left, const Right& right);
 
 		protected:
 			void _InitFormList(std::initializer_list<T>&& list);
+
 
 		protected:
 			std::array<V, Row> m_Data;
@@ -300,6 +302,19 @@ namespace DSM {
 			return m;
 		}
 
+		template<typename Derived, typename V, std::size_t Row>
+		template<typename Ret, typename Left, typename Right>
+		inline constexpr Ret MatrixBase<Derived, V, Row>::_MultiplicaeMatrix(const Left& left, const Right& right)
+		{
+			using Rows = typename MatrixTraits<Left>::Rows;
+			using Cols = typename MatrixTraits<Right>::Cols;
+			Ret ret{ left };
+			for (auto i = Rows::value; i--; )
+				for (auto j = Cols::value; j--; )
+					ret[i][j] = left[i] * right.getCol(j);
+			return ret;
+		}
+
 		template <typename Derived, typename V, std::size_t Row>
 		void MatrixBase<Derived, V, Row>::_InitFormList(std::initializer_list<T>&& list)
 		{
@@ -367,6 +382,7 @@ namespace DSM {
 			for (int i = 0; i < Row; i++) out << m[i] << '\n';
 			return out;
 		}
+
 
 
 

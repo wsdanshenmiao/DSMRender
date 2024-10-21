@@ -77,6 +77,7 @@ int main(int argc, char** argv)
 	std::cout << m3.calculateDet() << '\n';
 	std::cout << m3.invert();
 	std::cout << m3.invertTranspose();
+	std::cout << m2 * m3;
 
 	image.write_tga_file("output.tga");
 	return 0;

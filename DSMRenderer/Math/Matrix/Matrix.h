@@ -7,30 +7,28 @@
 namespace DSM {
 	namespace Math {
 
-		template<typename T, std::size_t Col, std::size_t Row>
-		class Matrix : public MatrixBase<Matrix<T, Col, Row>, Vector<T, Col>, Row>
+		template<typename T, std::size_t Row, std::size_t Col>
+		class Matrix : public MatrixBase<Matrix<T, Row, Col>, Vector<T, Col>, Row>
 		{
 		public:
-			using MinorType = Matrix<T, Col - 1, Row - 1>;
-			using BaseType = typename MatrixBase<Matrix<T, Col, Row>, Vector<T, Col>, Row>;
+			using MinorType = Matrix<T, Row - 1, Col - 1>;
+			using BaseType = typename MatrixBase<Matrix<T, Row, Col>, Vector<T, Col>, Row>;
 
 			constexpr Matrix() noexcept;
 			constexpr explicit Matrix(const T& v) noexcept;
-			Matrix& operator=(const Matrix& other) = default;
 			auto& operator=(std::initializer_list<T> list);
-
 		};
 
-		template<typename T, std::size_t Col, std::size_t Row>
-		constexpr Matrix<T, Col, Row>::Matrix() noexcept
+		template<typename T, std::size_t Row, std::size_t Col>
+		constexpr Matrix<T, Row, Col>::Matrix() noexcept
 			:BaseType() {}
 
-		template<typename T, std::size_t Col, std::size_t Row>
-		constexpr Matrix<T, Col, Row>::Matrix(const T& v) noexcept
+		template<typename T, std::size_t Row, std::size_t Col>
+		constexpr Matrix<T, Row, Col>::Matrix(const T& v) noexcept
 			:BaseType(v) {}
 
-		template<typename T, std::size_t Col, std::size_t Row>
-		auto& Matrix<T, Col, Row>::operator=(std::initializer_list<T> list)
+		template<typename T, std::size_t Row, std::size_t Col>
+		auto& Matrix<T, Row, Col>::operator=(std::initializer_list<T> list)
 		{
 			BaseType::_InitFormList(std::move(list));
 			return *this;
@@ -40,12 +38,23 @@ namespace DSM {
 
 
 
+		template<typename T, std::size_t R1, std::size_t C, std::size_t R2>
+		auto operator*(const Matrix<T, R1, C>& left, const Matrix<T, C, R2>& right)
+		{
+			using Ret = Matrix<T, R1, R2>;
+			using Left = Matrix<T, R1, C>;
+			using Right = Matrix<T, C, R2>;
+			return Ret::BaseType::_MultiplicaeMatrix<Ret, Left, Right>(left, right);
+		}
 
-		template<typename T, std::size_t Col, std::size_t Row>
-		struct MatrixTraits < Matrix<T, Col, Row>>
+
+		template<typename T, std::size_t Row, std::size_t Col>
+		struct MatrixTraits < Matrix<T, Row, Col>>
 		{
 			using ValueType = T;
-			using MinorType = Matrix<T, Col - 1, Row - 1>;
+			using Rows = std::integral_constant<std::size_t, Row>;
+			using Cols = std::integral_constant<std::size_t, Col>;
+			using MinorType = Matrix<T, Row - 1, Col - 1>;
 			using ColType = Vector<T, Row>;
 			using TransposType = Matrix<T, Row, Col>;
 		};
