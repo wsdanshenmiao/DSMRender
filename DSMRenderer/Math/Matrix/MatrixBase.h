@@ -12,7 +12,7 @@ namespace DSM {
 		struct MatrixTraits;
 
 		/// <summary>
-		/// ���������
+		/// 行主序矩阵，矩阵乘法须由子类自行定义
 		/// </summary>
 		/// <typeparam name="Derived"></typeparam>	������������
 		/// <typeparam name="Row"></typeparam>	����
@@ -24,24 +24,27 @@ namespace DSM {
 			using Col = typename VectorTraits<V>::Size;
 			using MinorType = typename VectorTraits<V>::MinorType;
 			using MinorMatrix = typename MatrixTraits<Derived>::MinorType;
+			using ColType = typename MatrixTraits<Derived>::ColType;
+			using TransposType = typename MatrixTraits<Derived>::TransposType;
 
 			constexpr MatrixBase() noexcept;
 			constexpr explicit MatrixBase(const T& v) noexcept;
+			MatrixBase& operator=(const MatrixBase& other) = default;
 			Derived& operator=(std::initializer_list<T> list);
 
 			constexpr std::size_t size() const noexcept;
 			void setRow(const std::size_t& idx, const V& row);
 			void setRow(const std::size_t& idx, V&& row);
-			void setCol(const std::size_t& idx, const Vector<T, Row>& col);
+			void setCol(const std::size_t& idx, const ColType& col);
 			constexpr auto getRow(const std::size_t& idx) const;
 			constexpr auto getCol(const std::size_t& idx) const;
 			constexpr auto getMinor(const std::size_t& row, const std::size_t& col) const;
 			constexpr auto cofactor(const std::size_t& row, const std::size_t& col) const;
 			constexpr auto calculateDet() const;
-			constexpr Derived adjugate() const;
-			constexpr Derived transpose() const;
-			constexpr Derived invert() const;
-			constexpr Derived invertTranspose() const;
+			constexpr auto adjugate() const;
+			constexpr auto transpose() const;
+			constexpr auto invert() const;
+			constexpr auto invertTranspose() const;
 
 
 			V& operator[] (const std::size_t& idx);
@@ -53,6 +56,7 @@ namespace DSM {
 			Derived& operator+=(const MatrixBase& other);
 			Derived& operator-=(const MatrixBase& other);
 			Derived& operator/=(const T& v);
+			Derived& operator*=(const T& v);
 
 			static constexpr Derived identity() noexcept;
 
@@ -109,17 +113,17 @@ namespace DSM {
 		template <typename Derived, typename V, std::size_t Row>
 		constexpr auto MatrixBase<Derived, V, Row>::getCol(const std::size_t& idx) const
 		{
-			if (!(0 <= idx && idx < Row))
+			if (!(0 <= idx && idx < Col::value))
 				throw std::out_of_range("Index out of range.");
-			Vector<T, Row> col;
+			ColType col{};
 			for (std::size_t i = 0; i < Row; col[i] = m_Data[i][idx], ++i);
 			return col;
 		}
 
 		template <typename Derived, typename V, std::size_t Row>
-		void MatrixBase<Derived, V, Row>::setCol(const std::size_t& idx, const Vector<T, Row>& col)
+		void MatrixBase<Derived, V, Row>::setCol(const std::size_t& idx, const ColType& col)
 		{
-			if (!(0 <= idx && idx < Row))
+			if (!(0 <= idx && idx < Col::value))
 				throw std::out_of_range("Index out of range.");
 			for (std::size_t i = 0; i < Row; m_Data[i][idx] = col[i], ++i);
 		}
@@ -135,7 +139,7 @@ namespace DSM {
 		{
 			if (!(0 <= row && row < Row) || !(0 <= col && col < Col::value))
 				throw std::logic_error("Row or col out of range.");
-			MinorMatrix ret;
+			MinorMatrix ret{};
 			for (auto i = Row - 1; i--; ) {
 				for (auto j = Col::value - 1; j--; ) {
 					ret[i][j] = m_Data[i < row ? i : i + 1][j < col ? j : j + 1];
@@ -168,32 +172,32 @@ namespace DSM {
 		}
 
 		template <typename Derived, typename V, std::size_t Row>
-		constexpr Derived MatrixBase<Derived, V, Row>::adjugate() const
+		constexpr auto MatrixBase<Derived, V, Row>::adjugate() const
 		{
-			MatrixBase ret;
-			for (int i = Row; i--; )
-				for (int j = Col::value; j--; ret[j][i] = cofactor(i, j));
+			Derived ret{};
+			for (auto i = Row; i--; )
+				for (auto j = Col::value; j--; ret[j][i] = cofactor(i, j));
 			return ret;
 		}
 
 		template <typename Derived, typename V, std::size_t Row>
-		constexpr Derived MatrixBase<Derived, V, Row>::transpose() const
+		constexpr auto MatrixBase<Derived, V, Row>::transpose() const
 		{
-			MatrixBase<Derived, V, Row>  ret;
-			for (int i = Col::value; i--; ret[i] = getCol(i));
+			TransposType ret{};
+			for (auto i = Col::value; i--; ret[i] = getCol(i));
 			return ret;
 		}
 
 		template <typename Derived, typename V, std::size_t Row>
-		constexpr Derived MatrixBase<Derived, V, Row>::invert() const
+		constexpr auto MatrixBase<Derived, V, Row>::invert() const
 		{
-			return MatrixBase();
+			return adjugate() / calculateDet();
 		}
 
 		template <typename Derived, typename V, std::size_t Row>
-		constexpr Derived MatrixBase<Derived, V, Row>::invertTranspose() const
+		constexpr auto MatrixBase<Derived, V, Row>::invertTranspose() const
 		{
-			return MatrixBase();
+			return invert().transpose();
 		}
 
 		template <typename Derived, typename V, std::size_t Row>
@@ -280,11 +284,18 @@ namespace DSM {
 			return *static_cast<Derived*>(this);
 		}
 
+		template<typename Derived, typename V, std::size_t Row>
+		inline Derived& MatrixBase<Derived, V, Row>::operator*=(const T& v)
+		{
+			for (auto i = Row; i--; m_Data[i] *= v);
+			return *static_cast<Derived*>(this);
+		}
+
 		template <typename Derived, typename V, std::size_t Row>
 		constexpr Derived MatrixBase<Derived, V, Row>::identity() noexcept
 		{
 			MatrixBase m{};
-			auto max = std::max(Row, Col::value);
+			auto max = std::min(Row, Col::value);
 			for (std::size_t i = 0; i < max; m_Data[i][i] = 1, ++i);
 			return m;
 		}
@@ -305,7 +316,52 @@ namespace DSM {
 
 
 
-		template <typename Derived, typename V, std::size_t Row>
+		template<typename Derived, typename V, std::size_t Row>
+		Derived operator+(
+			const MatrixBase<Derived, V, Row>& left,
+			const MatrixBase<Derived, V, Row>& right) {
+			Derived ret;
+			for (auto i = Row; i--; ret[i] = left[i] + right[i]);
+			return ret;
+		}
+
+		template<typename Derived, typename V, std::size_t Row>
+		Derived operator-(
+			const MatrixBase<Derived, V, Row>& left,
+			const MatrixBase<Derived, V, Row>& right) {
+			Derived ret;
+			for (auto i = Row; i--; ret[i] = left[i] - right[i]);
+			return ret;
+		}
+
+		template<typename Derived, typename V, std::size_t Row>
+		Derived operator/(
+			const MatrixBase<Derived, V, Row>& m,
+			const typename MatrixBase<Derived, V, Row>::T& v) {
+			Derived ret;
+			for (auto i = Row; i--; ret[i] = m[i] / v);
+			return ret;
+		}
+
+		template<typename Derived, typename V, std::size_t Row>
+		Derived operator*(
+			const MatrixBase<Derived, V, Row>& m,
+			const typename MatrixBase<Derived, V, Row>::T& v) {
+			Derived ret;
+			for (auto i = Row; i--; ret[i] = m[i] * v);
+			return ret;
+		}
+
+		template<typename Derived, typename V, std::size_t Row>
+		Derived operator*(
+			const typename MatrixBase<Derived, V, Row>::T& v,
+			const MatrixBase<Derived, V, Row>& m) {
+			Derived ret;
+			for (auto i = Row; i--; ret[i] = m[i] * v);
+			return ret;
+		}
+
+		template<typename Derived, typename V, std::size_t Row>
 		std::ostream& operator<<(std::ostream& out, const MatrixBase<Derived, V, Row>& m)
 		{
 			for (int i = 0; i < Row; i++) out << m[i] << '\n';

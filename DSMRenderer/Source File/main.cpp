@@ -57,25 +57,26 @@ int main(int argc, char** argv)
 	Matrix<float, 4, 4> m0;
 	Matrix<float, 4, 4> m1(1);
 	m0.setRow(0, { 1,2,3,4 });
-	std::cout << m0 << '\n' << m1.getRow(0) << '\n' << m0.getCol(0) << '\n';
+	//std::cout << m0 << '\n' << m1.getRow(0) << '\n' << m0.getCol(0) << '\n';
 	Matrix<float, 4, 4> m2;
 	m2 = { 1.0f, 2.0f, 3.0f, 4.0f,
 		1.0f, 2.0f, 3.0f, 4.0f,
 		1.0f, 2.0f, 3.0f, 4.0f,
 		1.0f, 2.0f, 3.0f, 4.0f };
-	std::cout << m2;
+	//std::cout << m2;
 
 	Matrix<float, 4, 4> m3;
 	m3 << 1.0f, 2.0f, 3.0f, 4.0f,
-		5.0f, 6.0f, 7.0f, 8.0f,
-		1.0f, 2.0f, 3.0f, 4.0f,
-		1.0f, 7, 3.0f, 8;
+		5.0f, 6.0f, 7.0f, 4.0f,
+		10.0f, 2.0f, 3.0f, 4.0f,
+		1.0f, 2.0f, 3.0f, 40.0f;
 	std::cout << m3;
+	std::cout << m3.transpose();
 	std::cout << m3.getMinor(1, 1);
-	std::cout << m3.calculateDet();
-	std::cout << m3.cofactor(2, 2);
-	std::cout << m2;
-
+	std::cout << m3.cofactor(0, 1) << '\n';
+	std::cout << m3.calculateDet() << '\n';
+	std::cout << m3.invert();
+	std::cout << m3.invertTranspose();
 
 	image.write_tga_file("output.tga");
 	return 0;

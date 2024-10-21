@@ -16,6 +16,7 @@ namespace DSM {
 
 			constexpr Matrix() noexcept;
 			constexpr explicit Matrix(const T& v) noexcept;
+			Matrix& operator=(const Matrix& other) = default;
 			auto& operator=(std::initializer_list<T> list);
 
 		};
@@ -45,6 +46,8 @@ namespace DSM {
 		{
 			using ValueType = T;
 			using MinorType = Matrix<T, Col - 1, Row - 1>;
+			using ColType = Vector<T, Row>;
+			using TransposType = Matrix<T, Row, Col>;
 		};
 	}
 }
