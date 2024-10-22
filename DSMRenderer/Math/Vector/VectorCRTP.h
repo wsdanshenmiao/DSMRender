@@ -325,9 +325,6 @@ namespace DSM {
 
 
 
-		// 结构体帮助提取 Vector 的 N  
-		template <typename VectorType>
-		struct VectorTraits;
 	}
 }
 

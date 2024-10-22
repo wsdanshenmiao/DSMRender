@@ -38,19 +38,6 @@ namespace DSM {
 			:VectorCRTP<T, N, Vector>(std::move(list)) {}
 
 
-		template <typename T, std::size_t N>
-		struct VectorTraits<Vector<T, N>> {
-			using Size = std::integral_constant<std::size_t, N>;
-			using ValueType = T;
-			using MinorType = Vector<T, N - 1>;
-		};
-
-		template <typename T>
-		struct VectorTraits<Vector<T, 1>> {
-			using Size = std::integral_constant<std::size_t, 1>;
-			using ValueType = T;
-			using MinorType = Vector<T, 1>;
-		};
 
 	}
 }

@@ -9,7 +9,7 @@ namespace DSM {
 		class Vector2;
 		class Vector3;
 
-		class Vector4 : VectorCRTP<float, 4, Vector4>
+		class Vector4 : public VectorCRTP<float, 4, Vector4>
 		{
 		public:
 			Vector4() noexcept;
@@ -32,12 +32,6 @@ namespace DSM {
 
 
 
-		template <>
-		struct VectorTraits<Vector4> {
-			using Size = std::integral_constant<std::size_t, 4>;
-			using ValueType = float;
-			using MinorType = Vector3;
-		};
 	}
 }
 

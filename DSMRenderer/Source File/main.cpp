@@ -4,12 +4,8 @@
 #include "../Math/Matrix/Matrix.h"
 #include "../Tool/Timer.h"
 #include <random>
-#include <array>
-#include <vector>
 #include "model.h"
 #include "geometry.h"
-#include <complex>
-#include <valarray>
 
 using namespace DSM;
 
@@ -70,14 +66,16 @@ int main(int argc, char** argv)
 		5.0f, 6.0f, 7.0f, 4.0f,
 		10.0f, 2.0f, 3.0f, 4.0f,
 		1.0f, 2.0f, 3.0f, 40.0f;
-	std::cout << m3;
-	std::cout << m3.transpose();
-	std::cout << m3.getMinor(1, 1);
-	std::cout << m3.cofactor(0, 1) << '\n';
-	std::cout << m3.calculateDet() << '\n';
-	std::cout << m3.invert();
-	std::cout << m3.invertTranspose();
-	std::cout << m2 * m3;
+	//std::cout << m3;
+	//std::cout << m3.transpose();
+	//std::cout << m3.getMinor(1, 1);
+	//std::cout << m3.cofactor(0, 1) << '\n';
+	//std::cout << m3.calculateDet() << '\n';
+	//std::cout << m3.invert();
+	//std::cout << m3.invertTranspose();
+	//std::cout << m2 * m3;
+
+	Matrix4x4 m4;
 
 	image.write_tga_file("output.tga");
 	return 0;

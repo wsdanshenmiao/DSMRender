@@ -3,6 +3,8 @@
 #define __MATRIX__H__
 
 #include "MatrixBase.h"
+#include "Matrix3x3.h"
+#include "Matrix4x4.h"
 
 namespace DSM {
 	namespace Math {
@@ -48,16 +50,6 @@ namespace DSM {
 		}
 
 
-		template<typename T, std::size_t Row, std::size_t Col>
-		struct MatrixTraits < Matrix<T, Row, Col>>
-		{
-			using ValueType = T;
-			using Rows = std::integral_constant<std::size_t, Row>;
-			using Cols = std::integral_constant<std::size_t, Col>;
-			using MinorType = Matrix<T, Row - 1, Col - 1>;
-			using ColType = Vector<T, Row>;
-			using TransposType = Matrix<T, Row, Col>;
-		};
 	}
 }
 

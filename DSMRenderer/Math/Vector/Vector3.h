@@ -47,12 +47,6 @@ namespace DSM {
 
 
 
-		template <>
-		struct VectorTraits<Vector3> {
-			using Size = std::integral_constant<std::size_t, 3>;
-			using ValueType = float;
-			using MinorType = Vector2;
-		};
 
 	}
 }

@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Geometry\Line.cpp" />
-    <ClCompile Include="Math\Matrix\Matrix3x3.cpp" />
     <ClCompile Include="Math\Matrix\Matrix4x4.cpp" />
     <ClCompile Include="Math\Vector\Vector2.cpp" />
     <ClCompile Include="Math\Vector\Vector3.cpp" />
@@ -36,11 +35,13 @@
     <ClInclude Include="Math\Matrix\Matrix3x3.h" />
     <ClInclude Include="Math\Matrix\Matrix4x4.h" />
     <ClInclude Include="Math\Matrix\MatrixBase.h" />
+    <ClInclude Include="Math\Matrix\MatrixTraits.h" />
     <ClInclude Include="Math\Vector\Vector.h" />
     <ClInclude Include="Math\Vector\Vector3.h" />
     <ClInclude Include="Math\Vector\Vector4.h" />
     <ClInclude Include="Math\Vector\VectorCRTP.h" />
     <ClInclude Include="Math\Vector\Vector2.h" />
+    <ClInclude Include="Math\Vector\VectorTraits.h" />
     <ClInclude Include="Source File\geometry.h" />
     <ClInclude Include="Source File\model.h" />
     <ClInclude Include="Tool\Tgaimage.h" />

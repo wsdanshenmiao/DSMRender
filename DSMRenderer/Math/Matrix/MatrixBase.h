@@ -2,14 +2,14 @@
 #ifndef __MATRIXBASE__H__
 #define __MATRIXBASE__H__
 
-#include "../Vector/Vector.h"
+#include <iostream>
+#include "../Vector/VectorTraits.h"
 #include "Determinant.h"
+#include "MatrixTraits.h"
+#include "../Vector/Vector.h"
 
 namespace DSM {
 	namespace Math {
-
-		template <typename MatrixType>
-		struct MatrixTraits;
 
 		/// <summary>
 		/// 行主序矩阵，矩阵乘法须由子类自行定义
@@ -58,11 +58,11 @@ namespace DSM {
 			Derived& operator*=(const T& v);
 
 			static constexpr Derived identity() noexcept;
-			template<typename Ret, typename Left, typename Right>
-			static constexpr Ret _MultiplicaeMatrix(const Left& left, const Right& right);
 
 		protected:
 			void _InitFormList(std::initializer_list<T>&& list);
+			template<typename Ret, typename Left, typename Right>
+			static constexpr Ret _MultiplicaeMatrix(const Left& left, const Right& right);
 
 
 		protected:

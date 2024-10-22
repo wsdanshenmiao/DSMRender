@@ -15,5 +15,13 @@ namespace DSM {
 		}
 
 
+		auto operator*(const Matrix4x4& left, const Matrix4x4& right)
+		{
+			using Ret = Matrix4x4;
+			using Left = Matrix4x4;
+			using Right = Matrix4x4;
+			return Matrix4x4::BaseType::_MultiplicaeMatrix<Ret, Left, Right>(left, right);
+		}
+
 	}
 }
