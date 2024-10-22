@@ -36,9 +36,6 @@
     <ClCompile Include="Math\Vector\Vector4.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Matrix\Matrix4x4.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Line.h">
@@ -56,7 +53,7 @@
     <ClInclude Include="Tool\Timer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Matrix\MatrixBase.h">
+    <ClInclude Include="Math\Matrix\Matrix.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Math\Vector\Vector.h">
@@ -75,15 +72,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Math\Matrix\Determinant.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix\Matrix.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix\Matrix3x3.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix\Matrix4x4.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Math\Vector\VectorTraits.h">

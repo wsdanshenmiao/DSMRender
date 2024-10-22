@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Geometry\Line.cpp" />
-    <ClCompile Include="Math\Matrix\Matrix4x4.cpp" />
     <ClCompile Include="Math\Vector\Vector2.cpp" />
     <ClCompile Include="Math\Vector\Vector3.cpp" />
     <ClCompile Include="Math\Vector\Vector4.cpp" />
@@ -32,9 +31,6 @@
     <ClInclude Include="Geometry\Line.h" />
     <ClInclude Include="Math\Matrix\Determinant.h" />
     <ClInclude Include="Math\Matrix\Matrix.h" />
-    <ClInclude Include="Math\Matrix\Matrix3x3.h" />
-    <ClInclude Include="Math\Matrix\Matrix4x4.h" />
-    <ClInclude Include="Math\Matrix\MatrixBase.h" />
     <ClInclude Include="Math\Matrix\MatrixTraits.h" />
     <ClInclude Include="Math\Vector\Vector.h" />
     <ClInclude Include="Math\Vector\Vector3.h" />

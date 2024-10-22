@@ -50,18 +50,18 @@ int main(int argc, char** argv)
 	Vector4 z4 = a4;
 	*/
 
-	Matrix<float, 4, 4> m0;
-	Matrix<float, 4, 4> m1(1);
+	Matrix4x4 m0;
+	Matrix4x4 m1(1);
 	m0.setRow(0, { 1,2,3,4 });
 	//std::cout << m0 << '\n' << m1.getRow(0) << '\n' << m0.getCol(0) << '\n';
-	Matrix<float, 4, 4> m2;
+	Matrix4x4 m2;
 	m2 = { 1.0f, 2.0f, 3.0f, 4.0f,
 		1.0f, 2.0f, 3.0f, 4.0f,
 		1.0f, 2.0f, 3.0f, 4.0f,
 		1.0f, 2.0f, 3.0f, 4.0f };
 	//std::cout << m2;
 
-	Matrix<float, 4, 4> m3;
+	Matrix4x4 m3;
 	m3 << 1.0f, 2.0f, 3.0f, 4.0f,
 		5.0f, 6.0f, 7.0f, 4.0f,
 		10.0f, 2.0f, 3.0f, 4.0f,
@@ -75,7 +75,9 @@ int main(int argc, char** argv)
 	//std::cout << m3.invertTranspose();
 	//std::cout << m2 * m3;
 
-	Matrix4x4 m4;
+	Matrix4x4 m4 = m3;
+	Vector4 v4{ 1,5,8,1 };
+	std::cout << v4 * m4;
 
 	image.write_tga_file("output.tga");
 	return 0;

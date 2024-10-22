@@ -6,23 +6,22 @@
 
 namespace DSM {
 	namespace Math {
-		template <typename Derived, typename Vector, std::size_t Row>
-		class MatrixBase;
+		template <typename T, std::size_t Row, std::size_t Col>
+		class Matrix;
 		template<typename VectorType>
 		struct VectorTraits;
 
-		template <typename Derived, typename Vector, std::size_t Row>
+		template <typename T, std::size_t Row, std::size_t Col>
 		class Determinant
 		{
 		public:
-			using Matrix = MatrixBase<Derived, Vector, Row>;
-			using T = typename VectorTraits<Vector>::ValueType;
+			using Matrix = Matrix<T, Row, Col>;
 
 			static constexpr auto CalculateDet(const Matrix& m);
 		};
 
-		template <typename Derived, typename Vector, std::size_t Row>
-		constexpr auto Determinant<Derived, Vector, Row>::CalculateDet(const Matrix& m)
+		template <typename T, std::size_t Row, std::size_t Col>
+		constexpr auto Determinant<T, Row, Col>::CalculateDet(const Matrix& m)
 		{
 			T ret{ 0 };
 			for (int i = Row; i--; )
@@ -32,18 +31,17 @@ namespace DSM {
 
 
 
-		template <typename Derived, typename Vector>
-		class Determinant<Derived, Vector, 1>
+		template <typename T>
+		class Determinant<T, 1, 1>
 		{
 		public:
-			using Matrix = MatrixBase<Derived, Vector, 1>;
-			using T = typename VectorTraits<Vector>::ValueType;
+			using Matrix = Matrix<T, 1, 1>;
 
 			static constexpr auto CalculateDet(const Matrix& m);
 		};
 
-		template <typename Derived, typename Vector>
-		constexpr auto Determinant<Derived, Vector, 1>::CalculateDet(const Matrix& m)
+		template <typename T>
+		constexpr auto Determinant<T, 1, 1>::CalculateDet(const Matrix& m)
 		{
 			return m[0][0];
 		}
