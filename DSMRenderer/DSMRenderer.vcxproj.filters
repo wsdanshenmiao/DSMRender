@@ -21,7 +21,7 @@
     <ClCompile Include="Source File\model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Tool\Tgaimage.cpp">
+    <ClCompile Include="Rendering\Tgaimage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Geometry\Line.cpp">
@@ -36,6 +36,9 @@
     <ClCompile Include="Math\Vector\Vector4.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\Color.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Line.h">
@@ -47,7 +50,7 @@
     <ClInclude Include="Source File\model.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Tool\Tgaimage.h">
+    <ClInclude Include="Rendering\Tgaimage.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Tool\Timer.h">
@@ -74,10 +77,10 @@
     <ClInclude Include="Math\Matrix\Determinant.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Vector\VectorTraits.h">
+    <ClInclude Include="Math\Matrix\MatrixTraits.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Matrix\MatrixTraits.h">
+    <ClInclude Include="Rendering\Color.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

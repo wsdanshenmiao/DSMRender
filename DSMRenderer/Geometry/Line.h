@@ -2,7 +2,8 @@
 #ifndef __LINE__H
 #define __LINE__H
 
-#include "../Tool/Tgaimage.h"
+#include "../Rendering/Tgaimage.h"
+#include "../Math/Vector/Vector.h"
 
 namespace DSM {
 	namespace Geometry {
@@ -10,15 +11,13 @@ namespace DSM {
 		class Line
 		{
 		public:
-			Line(int x0, int y0, int x1, int y1, const TGAColor& color = { 0,0,0,0 });
-			Line(const Line& other) = default;
-			~Line();
+			Line(Math::Vector2 p0, Math::Vector2 p1, const TGAColor& color = { 255 });
 
 			void DrawLine(TGAImage& rt);
 
 		private:
-			int m_X0, m_Y0;
-			int m_X1, m_Y1;
+			Math::Vector2 m_P0;
+			Math::Vector2 m_P1;
 			TGAColor m_Color;
 		};
 

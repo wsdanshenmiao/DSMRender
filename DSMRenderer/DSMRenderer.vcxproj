@@ -23,9 +23,10 @@
     <ClCompile Include="Math\Vector\Vector2.cpp" />
     <ClCompile Include="Math\Vector\Vector3.cpp" />
     <ClCompile Include="Math\Vector\Vector4.cpp" />
+    <ClCompile Include="Rendering\Color.cpp" />
     <ClCompile Include="Source File\main.cpp" />
     <ClCompile Include="Source File\model.cpp" />
-    <ClCompile Include="Tool\Tgaimage.cpp" />
+    <ClCompile Include="Rendering\Tgaimage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Line.h" />
@@ -37,10 +38,10 @@
     <ClInclude Include="Math\Vector\Vector4.h" />
     <ClInclude Include="Math\Vector\VectorCRTP.h" />
     <ClInclude Include="Math\Vector\Vector2.h" />
-    <ClInclude Include="Math\Vector\VectorTraits.h" />
+    <ClInclude Include="Rendering\Color.h" />
     <ClInclude Include="Source File\geometry.h" />
     <ClInclude Include="Source File\model.h" />
-    <ClInclude Include="Tool\Tgaimage.h" />
+    <ClInclude Include="Rendering\Tgaimage.h" />
     <ClInclude Include="Tool\Timer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
