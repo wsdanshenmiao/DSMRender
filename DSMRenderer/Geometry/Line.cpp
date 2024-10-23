@@ -3,11 +3,11 @@
 namespace DSM {
 	namespace Geometry {
 		using namespace Math;
-		Line::Line(Vector2 p0, Vector2 p1, const TGAColor& color)
+		Line::Line(Vector2 p0, Vector2 p1, const Color& color)
 			:m_P0(p0), m_P1(p1), m_Color(color) {}
 
 
-		void Line::DrawLine(TGAImage& rt)
+		void Line::DrawLine(const std::function<void(int, int, const Color&)>& render)
 		{
 			bool steep = false;
 			// 以x为索引绘制时，当线很陡峭时会有严重的间隙，将绘制索引更改为y
@@ -44,10 +44,10 @@ namespace DSM {
 			int y = m_P0.y();
 			for (int x = m_P0.x(); x <= m_P1.x(); ++x) {
 				if (steep) {
-					rt.set(y, x, m_Color);
+					render(y, x, m_Color);
 				}
 				else {
-					rt.set(x, y, m_Color);
+					render(x, y, m_Color);
 				}
 				offset += doffset;
 				//if (offset > .5f) {

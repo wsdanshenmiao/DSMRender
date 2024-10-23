@@ -21,24 +21,17 @@ struct TGAHeader {
 };
 #pragma pack(pop)
 
-class TGAColor :public DSM::Color
+struct TGAColor
 {
-public:
-	TGAColor() noexcept
-		:Color(std::array<std::uint8_t, 4>{0}), bytespp(4) {}
-	TGAColor(const std::uint8_t v, const std::uint8_t byte = 4) noexcept
-		:Color(std::array<std::uint8_t, 4>{v, v, v, v}), bytespp(byte) {}
-	TGAColor(
-		const std::uint8_t r, const std::uint8_t g,
-		const std::uint8_t b, const std::uint8_t a, const std::uint8_t byte = 4) noexcept
-		:Color(std::array<std::uint8_t, 4>{r, g, b, a}), bytespp(byte) {}
-	TGAColor(const std::array<std::uint8_t, 4>& color, const std::uint8_t byte = 4) noexcept
-		:Color(color), bytespp(byte) {}
-	TGAColor(std::array<std::uint8_t, 4>&& color, const std::uint8_t byte = 4) noexcept
-		:Color(std::move(color)), bytespp(byte) {}
-
-public:
+	DSM::Color color;
 	std::uint8_t bytespp;
+	std::uint8_t* data() noexcept {
+		return color.data();
+	}
+	std::uint8_t& operator[](const std::size_t& index) noexcept
+	{
+		return color[index];
+	}
 };
 
 struct TGAImage
@@ -52,7 +45,7 @@ struct TGAImage
 	void flip_horizontally();
 	void flip_vertically();
 	TGAColor get(const int x, const int y) const;
-	void set(const int x, const int y, TGAColor& c);
+	void set(const int x, const int y, const DSM::Color& c);
 	int width()  const;
 	int height() const;
 private:

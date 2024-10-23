@@ -8,27 +8,29 @@
 #include <random>
 #include <memory>
 
+using namespace DSM;
 using namespace DSM::Math;
 using namespace DSM::Geometry;
 
-void triangle(Vector2 t0, Vector2 t1, Vector2 t2, TGAImage& image, TGAColor color) {
-	Line{ t0, t1, color }.DrawLine(image);
-	Line{ t1, t2, color }.DrawLine(image);
-	Line{ t2, t0, color }.DrawLine(image);
+void triangle(Vector2 t0, Vector2 t1, Vector2 t2, TGAImage& image, Color color) {
+	auto render = [&](int x, int y, const Color& color) {
+		image.set(x, y, color);
+		};
+	Line{ t0, t1, color }.DrawLine(render);
+	Line{ t1, t2, color }.DrawLine(render);
+	Line{ t2, t0, color }.DrawLine(render);
 }
 
 int main(int argc, char** argv)
 {
-	TGAImage image(1024, 1024, TGAImage::RGB);
-	const TGAColor white = TGAColor(255, 255, 255, 255);
-	const TGAColor red = TGAColor(255, 0, 0, 255);
-	const TGAColor green = TGAColor(0, 255, 0, 255);
-	Vector2 t0[3] = { Vector2(10, 70),   Vector2(50, 160),  Vector2(70, 80) };
-	Vector2 t1[3] = { Vector2(180, 50),  Vector2(150, 1),   Vector2(70, 180) };
-	Vector2 t2[3] = { Vector2(180, 150), Vector2(120, 160), Vector2(130, 180) };
-	triangle(t0[0], t0[1], t0[2], image, red);
-	triangle(t1[0], t1[1], t1[2], image, white);
-	triangle(t2[0], t2[1], t2[2], image, green);
+	TGAImage image(2048, 2048, TGAImage::RGB);
+
+	Vector2 t0[3] = { Vector2(100, 700),   Vector2(500, 1600),  Vector2(700, 800) };
+	Vector2 t1[3] = { Vector2(1800, 500),  Vector2(1500, 10),   Vector2(700, 1800) };
+	Vector2 t2[3] = { Vector2(1800, 1500), Vector2(1200, 1600), Vector2(1300, 1800) };
+	triangle(t0[0], t0[1], t0[2], image, Color::red());
+	triangle(t1[0], t1[1], t1[2], image, Color::blue());
+	triangle(t2[0], t2[1], t2[2], image, Color::green());
 
 	image.write_tga_file("output.tga");
 	return 0;

@@ -2,6 +2,7 @@
 #ifndef __LINE__H
 #define __LINE__H
 
+#include <functional>
 #include "../Rendering/Tgaimage.h"
 #include "../Math/Vector/Vector.h"
 
@@ -11,14 +12,14 @@ namespace DSM {
 		class Line
 		{
 		public:
-			Line(Math::Vector2 p0, Math::Vector2 p1, const TGAColor& color = { 255 });
+			Line(Math::Vector2 p0, Math::Vector2 p1, const Color& color = Color::white());
 
-			void DrawLine(TGAImage& rt);
+			void DrawLine(const std::function<void(int, int, const Color&)>& render);
 
 		private:
 			Math::Vector2 m_P0;
 			Math::Vector2 m_P1;
-			TGAColor m_Color;
+			Color m_Color;
 		};
 
 

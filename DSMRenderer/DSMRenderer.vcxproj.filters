@@ -21,9 +21,6 @@
     <ClCompile Include="Source File\model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\Tgaimage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Geometry\Line.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -39,6 +36,9 @@
     <ClCompile Include="Rendering\Color.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\Tgaimage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Line.h">
@@ -48,9 +48,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Source File\model.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Tgaimage.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Tool\Timer.h">
@@ -81,6 +78,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Color.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Tgaimage.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

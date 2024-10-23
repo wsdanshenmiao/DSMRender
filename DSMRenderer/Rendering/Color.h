@@ -3,7 +3,6 @@
 #define __COLOR__H__
 
 #include <array>
-#include <stdexcept>
 
 namespace DSM {
 	class Color
@@ -21,17 +20,23 @@ namespace DSM {
 		constexpr auto& g() noexcept;
 		constexpr auto& b() noexcept;
 		constexpr auto& a() noexcept;
+		const std::uint8_t* data() const noexcept;
 		std::uint8_t* data() noexcept;
 
 		std::uint8_t& operator[](const std::size_t& index) noexcept;
 		const std::uint8_t& operator[](const std::size_t& index) const noexcept;
-		constexpr auto& operator+=(const Color& other) noexcept;
-		constexpr auto& operator-=(const Color& other) noexcept;
-		constexpr auto& operator*=(const Color& other) noexcept;
-		constexpr auto& operator*=(const float& v) noexcept;
-		constexpr auto& operator/=(const float& v) noexcept;
+		auto& operator+=(const Color& other) noexcept;
+		auto& operator-=(const Color& other) noexcept;
+		auto& operator*=(const Color& other) noexcept;
+		auto& operator*=(const float& v) noexcept;
+		auto& operator/=(const float& v) noexcept;
 
 		static Color lerp(const Color& c1, const Color& c2, const float& t) noexcept;
+		static Color white() noexcept;
+		static Color black()noexcept;
+		static Color red() noexcept;
+		static Color green() noexcept;
+		static Color blue() noexcept;
 
 	protected:
 		std::array<std::uint8_t, 4> m_Color;

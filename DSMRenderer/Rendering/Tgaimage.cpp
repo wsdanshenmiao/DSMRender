@@ -200,7 +200,7 @@ TGAColor TGAImage::get(const int x, const int y) const {
 	return ret;
 }
 
-void TGAImage::set(int x, int y, TGAColor& c) {
+void TGAImage::set(int x, int y, const DSM::Color& c) {
 	if (!data.size() || x < 0 || y < 0 || x >= w || y >= h) return;
 	memcpy(data.data() + (x + y * w) * bpp, c.data(), bpp);
 }

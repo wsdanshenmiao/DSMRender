@@ -3,15 +3,15 @@
 namespace DSM {
 
 	Color::Color() noexcept
-		:m_Color(std::array<std::uint8_t, 4>{0}) {}
+		:m_Color({ 0,0,0,0 }) {}
 
 	Color::Color(const std::uint8_t v) noexcept
-		:m_Color(std::array<std::uint8_t, 4>{v, v, v, v}) {}
+		:m_Color({ v, v, v, v }) {}
 
 	Color::Color(
 		const std::uint8_t r, const std::uint8_t g,
 		const std::uint8_t b, const std::uint8_t a) noexcept
-		:m_Color(std::array<std::uint8_t, 4>{r, g, b, a}) {}
+		:m_Color({ r, g, b, a }) {}
 
 	Color::Color(const std::array<std::uint8_t, 4>& color) noexcept
 		:m_Color(color) {}
@@ -39,6 +39,11 @@ namespace DSM {
 		return m_Color[3];
 	}
 
+	const std::uint8_t* Color::data() const noexcept
+	{
+		return m_Color.data();
+	}
+
 	std::uint8_t* Color::data() noexcept
 	{
 		return m_Color.data();
@@ -54,19 +59,19 @@ namespace DSM {
 		return m_Color[index];
 	}
 
-	constexpr auto& Color::operator+=(const Color& other) noexcept
+	auto& Color::operator+=(const Color& other) noexcept
 	{
 		for (auto i = m_Color.size(); i--; m_Color[i] = std::min(m_Color[i] + other[i], 255));
 		return *this;
 	}
 
-	constexpr auto& Color::operator-=(const Color& other) noexcept
+	auto& Color::operator-=(const Color& other) noexcept
 	{
 		for (auto i = m_Color.size(); i--; m_Color[i] = std::max(m_Color[i] + other[i], 0));
 		return *this;
 	}
 
-	constexpr auto& Color::operator*=(const Color& other) noexcept
+	auto& Color::operator*=(const Color& other) noexcept
 	{
 		for (auto i = m_Color.size(); i--;) {
 			int c = m_Color[i] * other[i];
@@ -75,7 +80,7 @@ namespace DSM {
 		return *this;
 	}
 
-	constexpr auto& Color::operator*=(const float& v) noexcept
+	auto& Color::operator*=(const float& v) noexcept
 	{
 		float value = std::max(v, 0.f);
 		for (auto& c : m_Color) {
@@ -85,7 +90,7 @@ namespace DSM {
 		return *this;
 	}
 
-	constexpr auto& Color::operator/=(const float& v) noexcept
+	auto& Color::operator/=(const float& v) noexcept
 	{
 		float value = std::max(v, 0.f);
 		for (auto& c : m_Color) {
@@ -98,6 +103,31 @@ namespace DSM {
 	Color Color::lerp(const Color& c1, const Color& c2, const float& t) noexcept
 	{
 		return c1 * (1 - t) + c2 * t;
+	}
+
+	Color Color::white() noexcept
+	{
+		return Color{ 255, 255, 255, 255 };
+	}
+
+	Color Color::black() noexcept
+	{
+		return Color{ 0,0,0,0 };
+	}
+
+	Color Color::red() noexcept
+	{
+		return Color{ 255,0,0,255 };
+	}
+
+	Color Color::green() noexcept
+	{
+		return Color{ 0,255,0,255 };
+	}
+
+	Color Color::blue() noexcept
+	{
+		return Color{ 0,0,255,255 };
 	}
 
 
