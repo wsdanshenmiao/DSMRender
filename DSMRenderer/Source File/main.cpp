@@ -1,10 +1,9 @@
 #include "../Rendering/Tgaimage.h"
+#include "../Rendering/Model.h"
 #include "../Geometry/Line.h"
 #include "../Math/Vector/Vector.h"
 #include "../Math/Matrix/Matrix.h"
 #include "../Tool/Timer.h"
-#include "model.h"
-#include "geometry.h"
 #include <random>
 #include <memory>
 
@@ -23,15 +22,35 @@ void triangle(Vector2 t0, Vector2 t1, Vector2 t2, TGAImage& image, Color color) 
 
 int main(int argc, char** argv)
 {
-	TGAImage image(2048, 2048, TGAImage::RGB);
+	Model* model = nullptr;
+	const int width = 2048;
+	const int height = 2048;
+	float scale = 10;
+	float transX = 1000;
+	if (2 == argc) {
+		model = new Model(argv[1]);
+	}
+	else {
+		model = new Model("D:/Code/Computer Graphics/DSMRenderer/obj/Elena.obj");
+	}
 
-	Vector2 t0[3] = { Vector2(100, 700),   Vector2(500, 1600),  Vector2(700, 800) };
-	Vector2 t1[3] = { Vector2(1800, 500),  Vector2(1500, 10),   Vector2(700, 1800) };
-	Vector2 t2[3] = { Vector2(1800, 1500), Vector2(1200, 1600), Vector2(1300, 1800) };
-	triangle(t0[0], t0[1], t0[2], image, Color::red());
-	triangle(t1[0], t1[1], t1[2], image, Color::blue());
-	triangle(t2[0], t2[1], t2[2], image, Color::green());
+	TGAImage image(width, height, TGAImage::RGB);
+	for (int i = 0; i < model->facetSize(); i++) {
+		std::vector<int> face = model->facet(i);
+		for (int j = 0; j < 3; j++) {
+			Vector3 v0 = model->vert(face[j]);
+			Vector3 v1 = model->vert(face[(j + 1) % 3]);
+			float x0 = (v0.x() + 1.f) * width / 2.f / scale + transX;
+			float y0 = (v0.y() + 1.f) * height / 2.f / scale;
+			float x1 = (v1.x() + 1.f) * width / 2.f / scale + transX;
+			float y1 = (v1.y() + 1.f) * height / 2.f / scale;
+			Line({ x0, y0 }, { x1, y1 }, Color::white()).DrawLine([&](int x, int y, const Color& color) {
+				image.set(x, y, color);
+				});
+		}
+	}
 
 	image.write_tga_file("output.tga");
+	delete model;
 	return 0;
 }

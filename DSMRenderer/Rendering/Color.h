@@ -16,10 +16,14 @@ namespace DSM {
 		Color(const std::array<std::uint8_t, 4>& color) noexcept;
 		Color(std::array<std::uint8_t, 4>&& color) noexcept;
 
-		constexpr auto& r() noexcept;
-		constexpr auto& g() noexcept;
-		constexpr auto& b() noexcept;
-		constexpr auto& a() noexcept;
+		std::uint8_t& r() noexcept;
+		std::uint8_t& g() noexcept;
+		std::uint8_t& b() noexcept;
+		std::uint8_t& a() noexcept;
+		const std::uint8_t& r() const noexcept;
+		const std::uint8_t& g() const noexcept;
+		const std::uint8_t& b() const noexcept;
+		const std::uint8_t& a() const noexcept;
 		const std::uint8_t* data() const noexcept;
 		std::uint8_t* data() noexcept;
 

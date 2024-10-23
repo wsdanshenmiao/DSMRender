@@ -19,22 +19,42 @@ namespace DSM {
 	Color::Color(std::array<std::uint8_t, 4>&& color) noexcept
 		:m_Color(std::move(color)) {}
 
-	constexpr auto& Color::r() noexcept
+	std::uint8_t& Color::r() noexcept
 	{
 		return m_Color[0];
 	}
 
-	constexpr auto& Color::g() noexcept
+	std::uint8_t& Color::g() noexcept
 	{
 		return m_Color[1];
 	}
 
-	constexpr auto& Color::b() noexcept
+	std::uint8_t& Color::b() noexcept
 	{
 		return m_Color[2];
 	}
 
-	constexpr auto& Color::a() noexcept
+	std::uint8_t& Color::a() noexcept
+	{
+		return m_Color[3];
+	}
+
+	const std::uint8_t& Color::r() const noexcept
+	{
+		return m_Color[0];
+	}
+
+	const std::uint8_t& Color::g() const noexcept
+	{
+		return m_Color[1];
+	}
+
+	const std::uint8_t& Color::b() const noexcept
+	{
+		return m_Color[2];
+	}
+
+	const std::uint8_t& Color::a() const noexcept
 	{
 		return m_Color[3];
 	}

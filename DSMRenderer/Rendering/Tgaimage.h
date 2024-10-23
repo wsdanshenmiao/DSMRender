@@ -30,7 +30,14 @@ struct TGAColor
 	}
 	std::uint8_t& operator[](const std::size_t& index) noexcept
 	{
-		return color[index];
+		switch (index)
+		{
+		case 0:return color[2]; break;
+		case 1:return color[1]; break;
+		case 2:return color[0]; break;
+		case 4:return color[3]; break;
+		default: return color[0]; break;
+		}
 	}
 };
 

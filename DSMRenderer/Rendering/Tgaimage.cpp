@@ -201,8 +201,9 @@ TGAColor TGAImage::get(const int x, const int y) const {
 }
 
 void TGAImage::set(int x, int y, const DSM::Color& c) {
+	DSM::Color color{ c.b(),c.g(),c.r(),c.a() };
 	if (!data.size() || x < 0 || y < 0 || x >= w || y >= h) return;
-	memcpy(data.data() + (x + y * w) * bpp, c.data(), bpp);
+	memcpy(data.data() + (x + y * w) * bpp, color.data(), bpp);
 }
 
 void TGAImage::flip_horizontally() {
