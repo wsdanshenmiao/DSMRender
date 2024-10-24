@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Line.h" />
+    <ClInclude Include="Geometry\Triangle.h" />
     <ClInclude Include="Math\Matrix\Determinant.h" />
     <ClInclude Include="Math\Matrix\Matrix.h" />
     <ClInclude Include="Math\Matrix\MatrixTraits.h" />
