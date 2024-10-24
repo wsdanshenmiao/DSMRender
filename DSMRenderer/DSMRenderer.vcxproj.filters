@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source File\main.cpp">
+    <ClCompile Include="Source File\TestDrawTriangle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Geometry\Line.cpp">
@@ -37,6 +37,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source File\TestLineRender.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

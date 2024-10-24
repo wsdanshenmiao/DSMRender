@@ -26,7 +26,8 @@
     <ClCompile Include="Rendering\Color.cpp" />
     <ClCompile Include="Rendering\Model.cpp" />
     <ClCompile Include="Rendering\Tgaimage.cpp" />
-    <ClCompile Include="Source File\main.cpp" />
+    <ClCompile Include="Source File\TestDrawTriangle.cpp" />
+    <ClCompile Include="Source File\TestLineRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Line.h" />
