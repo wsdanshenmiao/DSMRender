@@ -29,6 +29,7 @@
     <ClCompile Include="Rendering\Tgaimage.cpp" />
     <ClCompile Include="Source File\TestDrawTriangle.cpp" />
     <ClCompile Include="Source File\TestLineRender.cpp" />
+    <ClCompile Include="Source File\TestZ-Buffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Line.h" />

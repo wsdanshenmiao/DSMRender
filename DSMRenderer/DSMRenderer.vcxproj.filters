@@ -45,6 +45,9 @@
     <ClCompile Include="Geometry\Triangle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Source File\TestZ-Buffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Line.h">

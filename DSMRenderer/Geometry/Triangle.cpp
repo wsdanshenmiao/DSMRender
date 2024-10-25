@@ -5,6 +5,27 @@ using namespace DSM::Math;
 namespace DSM {
 	namespace Geometry {
 
+		void Triangle::triangleWithtBarycentric(const std::array<Vector2, 3>& ts, TGAImage& image, Color color, RenderFunc render) {
+			Vector2 bMin(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+			Vector2 bMax(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
+			Vector2 clamp(image.width() - 1, image.height() - 1);
+			for (int i = 0; i < 3; ++i) {
+				for (int j = 0; j < 2; ++j) {
+					bMin[j] = std::max(0.f, std::min(bMin[j], ts[i][j]));
+					bMax[j] = std::min(clamp[j], std::max(bMax[j], ts[i][j]));
+				}
+			}
+			Vector2 P;
+			for (P.x() = bMin.x(); P.x() <= bMax.x(); P.x()++) {
+				for (P.y() = bMin.y(); P.y() <= bMax.y(); P.y()++) {
+					Vector3 bc_screen = barycentric(ts, P);
+					if (bc_screen.x() < 0 || bc_screen.y() < 0 || bc_screen.z() < 0) continue;
+					render(P.x(), P.y(), color);
+				}
+			}
+		}
+
+
 		void Triangle::triangleWithoutExcess(const std::array<Vector2, 3>& ts, TGAImage& image, Color color, RenderFunc render)
 		{
 			auto [t0, t1, t2] = ts;
@@ -41,15 +62,14 @@ namespace DSM {
 		void Triangle::triangleWithCross(const std::array<Vector2, 3>& ts, TGAImage& image, Color color, RenderFunc render)
 		{
 			// 最左下角的点和最右上角的点
-			Vector2 bMin(image.width() - 1, image.height() - 1);
-			Vector2 bMax(0, 0);
+			Vector2 bMin(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+			Vector2 bMax(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
 			Vector2 clamp(image.width() - 1, image.height() - 1);
-			for (int i = 0; i < 3; i++) {
-				bMin.x() = std::max(0.f, std::min(bMin.x(), ts[i].x()));
-				bMin.y() = std::max(0.f, std::min(bMin.y(), ts[i].y()));
-
-				bMax.x() = std::min(clamp.x(), std::max(bMax.x(), ts[i].x()));
-				bMax.y() = std::min(clamp.y(), std::max(bMax.y(), ts[i].y()));
+			for (int i = 0; i < 3; ++i) {
+				for (int j = 0; j < 2; ++j) {
+					bMin[j] = std::max(0.f, std::min(bMin[j], ts[i][j]));
+					bMax[j] = std::min(clamp[j], std::max(bMax[j], ts[i][j]));
+				}
 			}
 			// 遍历范围内的每一个点
 			for (auto i = bMin.x(); i < bMax.x(); ++i) {
@@ -57,28 +77,6 @@ namespace DSM {
 					if (inTriangle(ts, Vector3(i, j, 0))) {
 						render(i, j, color);
 					}
-				}
-			}
-		}
-
-
-		void Triangle::triangleWithtBarycentric(const std::array<Vector2, 3>& ts, TGAImage& image, Color color, RenderFunc render) {
-			Vector2 bboxmin(image.width() - 1, image.height() - 1);
-			Vector2 bboxmax(0, 0);
-			Vector2 clamp(image.width() - 1, image.height() - 1);
-			for (int i = 0; i < 3; i++) {
-				bboxmin.x() = std::max(0.f, std::min(bboxmin.x(), ts[i].x()));
-				bboxmin.y() = std::max(0.f, std::min(bboxmin.y(), ts[i].y()));
-
-				bboxmax.x() = std::min(clamp.x(), std::max(bboxmax.x(), ts[i].x()));
-				bboxmax.y() = std::min(clamp.y(), std::max(bboxmax.y(), ts[i].y()));
-			}
-			Vector2 P;
-			for (P.x() = bboxmin.x(); P.x() <= bboxmax.x(); P.x()++) {
-				for (P.y() = bboxmin.y(); P.y() <= bboxmax.y(); P.y()++) {
-					Vector3 bc_screen = barycentric(ts, P);
-					if (bc_screen.x() < 0 || bc_screen.y() < 0 || bc_screen.z() < 0) continue;
-					render(P.x(), P.y(), color);
 				}
 			}
 		}

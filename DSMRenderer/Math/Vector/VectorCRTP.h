@@ -296,7 +296,6 @@ namespace DSM {
 		Derived operator*(const VectorCRTP<T, N, Derived>& left, const T& right) noexcept
 		{
 			VectorCRTP<T, N, Derived> tmp(left);
-			;
 			return tmp *= right;
 		}
 

@@ -7,6 +7,45 @@ using namespace DSM::Math;
 
 namespace DSM {
 
+	inline void split(const std::string& in,
+		std::vector<std::string>& out,
+		std::string token)
+	{
+		out.clear();
+
+		std::string temp;
+
+		for (int i = 0; i < int(in.size()); i++)
+		{
+			std::string test = in.substr(i, token.size());
+
+			if (test == token)
+			{
+				if (!temp.empty())
+				{
+					out.push_back(temp);
+					temp.clear();
+					i += (int)token.size() - 1;
+				}
+				else
+				{
+					out.push_back("");
+				}
+			}
+			else if (i + token.size() >= in.size())
+			{
+				temp += in.substr(i, token.size());
+				out.push_back(temp);
+				break;
+			}
+			else
+			{
+				temp += in[i];
+			}
+		}
+	}
+
+
 	Model::Model(const std::string filename)
 	{
 		std::ifstream ifs;
@@ -27,13 +66,33 @@ namespace DSM {
 			}
 			else if (!line.compare(0, 2, "f ")) {
 				std::vector<int> f;
-				int itrash, idx;
-				iss >> trash;
-				while (iss >> idx >> trash >> itrash >> trash >> itrash) {
-					idx--; // in wavefront obj all indices start at 1, not zero
-					f.push_back(idx);
+				std::vector<std::string> sface;
+				split(line, sface, " ");
+
+				for (auto face : sface) {
+					if (face == "f")continue;
+					std::vector<std::string> svert;
+					int fv, ft, fn;
+					split(face, svert, "/");
+
+					switch (svert.size())
+					{
+					case 3: fn = std::stoul(svert[2]);
+					case 2: ft = std::stoul(svert[1]);
+					case 1: fv = std::stoul(svert[0]); break;
+					}
+					f.push_back(--fv);
 				}
-				m_Facets.push_back(f);
+				//m_Facets.push_back(f);
+				if (f.size() == 3) {	// 三角形
+					m_Facets.push_back(f);
+				}
+				else {	// 进行拆分
+					for (auto i = 1; i + 1 < f.size(); ++i) {
+						std::vector<int> tmp{ f[0],f[i], f[i + 1] };
+						m_Facets.push_back(std::move(tmp));
+					}
+				}
 			}
 		}
 		std::cerr << "# v# " << m_Vertexs.size() << " f# " << m_Facets.size() << std::endl;
