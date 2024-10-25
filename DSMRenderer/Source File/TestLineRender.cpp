@@ -24,7 +24,7 @@ void TestLineRender(int argc, char** argv)
 		};
 	Line::LineRender(model, render, Math::Vector2{ width, height });
 
-	image.write_tga_file("LineRender_Elena.tga");
+	image.write_tga_file("../Output/LineRender_Elena.tga");
 }
 
 //int main(int argc, char** argv)
