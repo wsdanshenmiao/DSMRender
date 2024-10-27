@@ -6,15 +6,19 @@
 #include "../Math/Vector/Vector.h"
 
 namespace DSM {
-	struct MeshData
+	struct Vertex
 	{
-		std::vector<Math::Vector3> m_Vertexs;
-		std::vector<Math::Vector2> m_TexCoords;
-		std::vector<Math::Vector3> m_Normals;
-		std::vector<int> m_FacetVert;
-		std::vector<int> m_FacetTex;
-		std::vector<int> m_FacetNornal;
+		Math::Vector3 m_Position;
+		Math::Vector2 m_TexCoord;
+		Math::Vector3 m_Normal;
 	};
+
+	//struct MeshData
+	//{
+	//	bool m_NoNormal;
+	//	std::vector<Vertex> m_Vertexs;
+	//	std::vector<std::size_t> m_Indexs;
+	//};
 
 }
 #endif // !__MESHDATA__H__

@@ -79,19 +79,19 @@ namespace DSM {
 		return m_Color[index];
 	}
 
-	auto& Color::operator+=(const Color& other) noexcept
+	Color& Color::operator+=(const Color& other) noexcept
 	{
 		for (auto i = m_Color.size(); i--; m_Color[i] = std::min(m_Color[i] + other[i], 255));
 		return *this;
 	}
 
-	auto& Color::operator-=(const Color& other) noexcept
+	Color& Color::operator-=(const Color& other) noexcept
 	{
 		for (auto i = m_Color.size(); i--; m_Color[i] = std::max(m_Color[i] + other[i], 0));
 		return *this;
 	}
 
-	auto& Color::operator*=(const Color& other) noexcept
+	Color& Color::operator*=(const Color& other) noexcept
 	{
 		for (auto i = m_Color.size(); i--;) {
 			int c = m_Color[i] * other[i];
@@ -100,7 +100,7 @@ namespace DSM {
 		return *this;
 	}
 
-	auto& Color::operator*=(const float& v) noexcept
+	Color& Color::operator*=(const float& v) noexcept
 	{
 		float value = std::max(v, 0.f);
 		for (auto& c : m_Color) {
@@ -110,7 +110,7 @@ namespace DSM {
 		return *this;
 	}
 
-	auto& Color::operator/=(const float& v) noexcept
+	Color& Color::operator/=(const float& v) noexcept
 	{
 		float value = std::max(v, 0.f);
 		for (auto& c : m_Color) {

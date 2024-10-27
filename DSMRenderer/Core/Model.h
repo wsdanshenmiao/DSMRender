@@ -3,8 +3,7 @@
 #define __MODEL__H__
 
 #include <vector>
-#include "MeshData.h"
-#include "Tgaimage.h"
+#include "ModelLoader.h"
 
 namespace DSM {
 	class Math::Vector2;
@@ -17,11 +16,14 @@ namespace DSM {
 
 		std::size_t vertSize() const;
 		std::size_t facetSize() const;
-		Math::Vector3& vert(const std::size_t& index);
-		std::vector<int>& facet(const std::size_t& index);
-	public:
-		std::vector<Math::Vector3> m_Vertexs;
-		std::vector<std::vector<int>> m_Facets;
+
+		Vertex& getVert(const std::size_t& index) noexcept;
+		Math::Vector3& getVertPos(const std::size_t& index) noexcept;
+
+	private:
+		std::string m_Name;
+		std::vector<Vertex> m_Mesh;
+		bool m_NoNormal;
 	};
 }
 

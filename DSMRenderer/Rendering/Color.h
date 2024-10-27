@@ -29,11 +29,11 @@ namespace DSM {
 
 		std::uint8_t& operator[](const std::size_t& index) noexcept;
 		const std::uint8_t& operator[](const std::size_t& index) const noexcept;
-		auto& operator+=(const Color& other) noexcept;
-		auto& operator-=(const Color& other) noexcept;
-		auto& operator*=(const Color& other) noexcept;
-		auto& operator*=(const float& v) noexcept;
-		auto& operator/=(const float& v) noexcept;
+		Color& operator+=(const Color& other) noexcept;
+		Color& operator-=(const Color& other) noexcept;
+		Color& operator*=(const Color& other) noexcept;
+		Color& operator*=(const float& v) noexcept;
+		Color& operator/=(const float& v) noexcept;
 
 		static Color lerp(const Color& c1, const Color& c2, const float& t) noexcept;
 		static Color white() noexcept;
