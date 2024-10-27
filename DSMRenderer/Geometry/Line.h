@@ -6,7 +6,7 @@
 #include <memory>
 #include "../Rendering/Color.h"
 #include "../Math/Vector/Vector.h"
-#include "../Rendering/Model.h"
+#include "../Core/Model.h"
 
 namespace DSM {
 	namespace Geometry {

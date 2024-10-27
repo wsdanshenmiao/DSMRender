@@ -62,10 +62,9 @@ namespace DSM {
 		void Line::LineRender(std::shared_ptr<Model> model, RenderFunc render, Math::Vector2 wh) noexcept
 		{
 			for (int i = 0; i < model->facetSize(); i++) {
-				std::vector<int> face = model->facet(i);
 				for (int j = 0; j < 3; j++) {
-					Math::Vector3 v0 = model->vert(face[j]);
-					Math::Vector3 v1 = model->vert(face[(j + 1) % 3]);
+					Math::Vector3 v0 = model->getVertPos(i * 3 + j);
+					Math::Vector3 v1 = model->getVertPos(i * 3 + (j + 1) % 3);
 					float x0 = (v0.x() + 1.f) * wh.x() / 2.f;
 					float y0 = (v0.y() + 1.f) * wh.y() / 2.f;
 					float x1 = (v1.x() + 1.f) * wh.x() / 2.f;

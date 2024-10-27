@@ -21,10 +21,13 @@ namespace DSM {
 		public:
 			using RowType = typename MatrixTraits<Matrix>::RowType;
 			using ColType = typename MatrixTraits<Matrix>::ColType;
+			using LowerType = Matrix<T, Row - 1, Col - 1>;
 
 			constexpr Matrix() noexcept;
 			constexpr explicit Matrix(const T& v) noexcept;
 			auto& operator=(std::initializer_list<T> list);
+
+			operator LowerType() const noexcept;
 
 			constexpr std::size_t size() const noexcept;
 			void setRow(const std::size_t& idx, const RowType& row);
@@ -69,7 +72,11 @@ namespace DSM {
 		template <typename T, std::size_t Row, std::size_t Col>
 		constexpr Matrix<T, Row, Col>::Matrix() noexcept
 			:m_Col(0), m_Row(0) {
-			m_Data.fill(RowType(0));
+			for (std::size_t i = 0; i < Row; ++i) {
+				for (std::size_t j = 0; j < Col; ++j) {
+					m_Data[i][j] = i == j ? T{ 1 } : T{ 0 };
+				}
+			}
 		}
 
 		template <typename T, std::size_t Row, std::size_t Col>
@@ -259,6 +266,12 @@ namespace DSM {
 		{
 			_InitFormList(std::move(list));
 			return *this;
+		}
+
+		template<typename T, std::size_t Row, std::size_t Col>
+		inline Matrix<T, Row, Col>::operator LowerType() const noexcept
+		{
+			return LowerType{};
 		}
 
 		template <typename T, std::size_t Row, std::size_t Col>
