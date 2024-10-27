@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source File\TestDrawTriangle.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Geometry\Line.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -36,16 +33,31 @@
     <ClCompile Include="Rendering\Tgaimage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\Model.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source File\TestLineRender.cpp">
+    <ClCompile Include="Core\Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Geometry\Triangle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source File\TestZ-Buffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader\IShader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Rasterizer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader\CommonShader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Light.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source File\TestShader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,13 +98,31 @@
     <ClInclude Include="Rendering\Tgaimage.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\Model.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\MeshData.h">
+    <ClInclude Include="Core\Model.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Geometry\Triangle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader\IShader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Rasterizer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader\CommonShader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Transform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,8 @@
 #include "../Math/Vector/Vector.h"
 #include "../Rendering/Tgaimage.h"
 #include "../Geometry/Line.h"
+#include "../Geometry/Triangle.h"
+#include "../Tool/Timer.h"
 #include <functional>
 
 using namespace DSM;
@@ -11,8 +13,8 @@ using RenderFunc = const std::function<void(int, int, const Color&)>&;
 Vector3 barycentric(const std::array<Vector3, 3>& ts, const Vector3& P)
 {
 	Vector3 u = Vector3::cross(
-		Vector3(ts[2][0] - ts[0][0], ts[1][0] - ts[0][0], ts[0][0] - P[0]),
-		Vector3(ts[2][1] - ts[0][1], ts[1][1] - ts[0][1], ts[0][1] - P[1]));
+		Vector3(ts[2].x() - ts[0].x(), ts[1].x() - ts[0].x(), ts[0].x() - P.x()),
+		Vector3(ts[2].y() - ts[0].y(), ts[1].y() - ts[0].y(), ts[0].y() - P.y()));
 	if (std::abs(u.z()) < 1) return Vector3(-1, 1, 1);
 	return Vector3(1.f - (u.x() + u.y()) / u.z(), u.y() / u.z(), u.x() / u.z());
 }
@@ -43,7 +45,7 @@ void triangleWithtBarycentric(const std::array<Vector3, 3>& ts, std::vector<floa
 	for (P.x() = std::floor(bMin.x()); P.x() <= bMax.x(); P.x()++) {
 		for (P.y() = std::floor(bMin.y()); P.y() <= bMax.y(); P.y()++) {
 			Vector3 bcScreen = barycentric(ts, P);
-			if (bcScreen.x() < -1e-2 || bcScreen.y() < -1e-2 || bcScreen.z() < -1e-2) continue;
+			if (bcScreen.x() < -0.12f || bcScreen.y() < -0.12f || bcScreen.z() < -0.12f) continue;
 			P.z() = 0;
 			for (auto i = 0; i < 3; P.z() += ts[i].z() * bcScreen[i], ++i);
 			int index = P.x() + image.width() * P.y();
@@ -128,41 +130,40 @@ void triangleWithoutExcess(const std::array<Vector3, 3>& ts, std::vector<float>&
 
 Vector3 WorldToScreen(const Vector3& v, const TGAImage& image)
 {
-	float scale = 0.1;
+	float scale = .1;
 	return Vector3(int((v.x() + 1.f) * image.width() / 2.f) * scale + 250, int((v.y() + 1.f) * image.height() / 2.f) * scale, v.z());
 }
 
-void TestZ_Buffer()
-{
-	TGAImage scene(512, 512, TGAImage::RGB);
-	std::shared_ptr model = std::make_shared<Model>("D:/Code/Computer Graphics/DSMRenderer/obj/Model/Elena.obj");
-	std::vector<float> zBuffer(scene.width() * scene.height(), std::numeric_limits<float>::max());
-	Vector3 lightDir{ 0,0,-1 };
+//void TestZ_Buffer()
+//{
+//	TGAImage scene(512, 512, TGAImage::RGB);
+//	std::shared_ptr model = std::make_shared<Model>("D:/Code/Computer Graphics/DSMRenderer/obj/Model/Elena.obj");
+//	std::vector<float> zBuffer(scene.width() * scene.height(), std::numeric_limits<float>::max());
+//	Vector3 lightDir{ 0,0,-1 };
+//
+//	auto render = [&](int x, int y, const Color& color) {
+//		scene.set(x, y, color);
+//		};
+//	Timer timer;
+//	for (auto i = 0; i < model->facetSize(); ++i) {
+//		std::array<Vector3, 3> ts;
+//		std::array<Vector3, 3> worldCoords{ model->getVertPos(i * 3), model->getVertPos(i * 3 + 1), model->getVertPos(i * 3 + 2) };
+//		for (auto j = 0; j < 3; ++j) {
+//			ts[j] = WorldToScreen(worldCoords[j], scene);
+//		}
+//		Vector3 normal = Vector3::cross(worldCoords[1] - worldCoords[0], worldCoords[2] - worldCoords[0]);
+//		float indensity = normal.normalized() * lightDir;
+//		if (indensity > 0) {
+//			Triangle::triangleWithtBarycentric(ts, zBuffer, scene, Color(indensity * 255, indensity * 255, indensity * 255, 255), render);
+//		}
+//	}
+//	timer.Stop();
+//
+//	scene.write_tga_file("../Output/output.tga");
+//}
 
-	auto render = [&](int x, int y, const Color& color) {
-		scene.set(x, y, color);
-		};
 
-	for (auto i = 0; i < model->facetSize(); ++i) {
-		auto facet = model->facet(i);
-		std::array<Vector3, 3> ts;
-		std::array<Vector3, 3> worldCoords;
-		for (auto j = 0; j < 3; ++j) {
-			worldCoords[j] = model->vert(facet[j]);
-			ts[j] = WorldToScreen(worldCoords[j], scene);
-		}
-		Vector3 normal = Vector3::cross(worldCoords[1] - worldCoords[0], worldCoords[2] - worldCoords[0]);
-		float indensity = normal.normalized() * lightDir;
-		if (indensity > 0) {
-			triangleWithCross(ts, zBuffer, scene, Color(indensity * 255, indensity * 255, indensity * 255, 255), render);
-		}
-	}
-
-	scene.write_tga_file("../Output/output.tga");
-}
-
-int main()
-{
-	TestZ_Buffer();
-	return 0;
-}
+//int main()
+//{
+//	return 0;
+//}

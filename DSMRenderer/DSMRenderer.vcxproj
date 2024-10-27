@@ -25,13 +25,19 @@
     <ClCompile Include="Math\Vector\Vector3.cpp" />
     <ClCompile Include="Math\Vector\Vector4.cpp" />
     <ClCompile Include="Rendering\Color.cpp" />
-    <ClCompile Include="Rendering\Model.cpp" />
+    <ClCompile Include="Rendering\Light.cpp" />
+    <ClCompile Include="Rendering\Rasterizer.cpp" />
+    <ClCompile Include="Rendering\Shader\CommonShader.cpp" />
+    <ClCompile Include="Rendering\Shader\IShader.cpp" />
+    <ClCompile Include="Core\Model.cpp" />
+    <ClCompile Include="Core\ModelLoader.cpp" />
     <ClCompile Include="Rendering\Tgaimage.cpp" />
-    <ClCompile Include="Source File\TestDrawTriangle.cpp" />
-    <ClCompile Include="Source File\TestLineRender.cpp" />
+    <ClCompile Include="Source File\TestShader.cpp" />
     <ClCompile Include="Source File\TestZ-Buffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\GameObject.h" />
+    <ClInclude Include="Core\Transform.h" />
     <ClInclude Include="Geometry\Line.h" />
     <ClInclude Include="Geometry\Triangle.h" />
     <ClInclude Include="Math\Matrix\Determinant.h" />
@@ -43,8 +49,12 @@
     <ClInclude Include="Math\Vector\VectorCRTP.h" />
     <ClInclude Include="Math\Vector\Vector2.h" />
     <ClInclude Include="Rendering\Color.h" />
-    <ClInclude Include="Rendering\MeshData.h" />
-    <ClInclude Include="Rendering\Model.h" />
+    <ClInclude Include="Rendering\Light.h" />
+    <ClInclude Include="Rendering\Shader\CommonShader.h" />
+    <ClInclude Include="Rendering\Shader\IShader.h" />
+    <ClInclude Include="Core\Model.h" />
+    <ClInclude Include="Core\ModelLoader.h" />
+    <ClInclude Include="Rendering\Rasterizer.h" />
     <ClInclude Include="Rendering\Tgaimage.h" />
     <ClInclude Include="Tool\Timer.h" />
   </ItemGroup>
