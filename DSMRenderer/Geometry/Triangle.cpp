@@ -6,7 +6,7 @@ namespace DSM {
 	namespace Geometry {
 		using namespace Rendering;
 
-		void Triangle::triangleWithtBarycentric(const std::array<VToP, 3>& vToPs, std::vector<float>& zBuffer, TGAImage& image, RenderFunc PS) {
+		void Triangle::triangleWithtBarycentric(const std::array<VToP, 3>& vToPs, std::vector<float>& zBuffer, TGAImage& image, const std::unique_ptr<IShader>& shader) {
 			// 选取边界
 			Vector2 bMin(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
 			Vector2 bMax(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
@@ -20,12 +20,12 @@ namespace DSM {
 			Vector3 P{};
 			for (P.x() = std::floor(bMin.x()); P.x() <= bMax.x(); P.x()++) {
 				for (P.y() = std::floor(bMin.y()); P.y() <= bMax.y(); P.y()++) {
-					Vector3 bcScreen = barycentric(vToPs, P);
-					if (bcScreen.x() < -1e-2f || bcScreen.y() < -1e-2f || bcScreen.z() < -1e-2f) continue;
+					Vector3 bcScreen = barycentric(vToPs, Vector3(P.x() + .5f, P.y() + .5f, P.z()));
+					if (bcScreen.x() < -1e-1f || bcScreen.y() < -1e-1f || bcScreen.z() < -1e-1f) continue;
 					P.z() = 0;
 					for (auto i = 0; i < 3; P.z() += vToPs[i].m_PosH.z() * bcScreen[i], ++i);
 					int index = P.x() + image.width() * P.y();
-					if (P.z() < zBuffer[index]) {	// 通过深度测试
+					if (P.z() > zBuffer[index]) {	// 通过深度测试
 						VToP vToP{};
 						for (auto i = 0; i < 3; ++i) {
 							vToP.m_PosH += vToPs[i].m_PosH * bcScreen[i];
@@ -33,7 +33,7 @@ namespace DSM {
 							vToP.m_TexCoord += vToPs[i].m_TexCoord * bcScreen[i];
 							vToP.m_Color += vToPs[i].m_Color * bcScreen[i];
 						}
-						Color color = PS(vToP);
+						Color color = shader->pixelShader(vToP);
 						image.set(P.x(), P.y(), color);
 						zBuffer[index] = P.z();
 					}
@@ -41,6 +41,42 @@ namespace DSM {
 			}
 		}
 
+		void Triangle::triangleWithCross(const std::array<VToP, 3>& vToPs, std::vector<float>& zBuffer, TGAImage& image, const std::unique_ptr<IShader>& shader)
+		{
+			// 最左下角的点和最右上角的点
+			Vector2 bMin(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+			Vector2 bMax(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
+			Vector2 clamp(image.width() - 1, image.height() - 1);
+			for (const auto& vToP : vToPs) {
+				for (int j = 0; j < 2; ++j) {
+					bMin[j] = std::max(0.f, std::min(bMin[j], vToP.m_PosH[j]));
+					bMax[j] = std::min(clamp[j], std::max(bMax[j], vToP.m_PosH[j]));
+				}
+			}
+			// 遍历范围内的每一个点
+			for (auto i = std::floor(bMin.x()); i <= bMax.x(); ++i) {
+				for (auto j = std::floor(bMin.y()); j <= bMax.y(); ++j) {
+					if (inTriangle(vToPs, Vector3(i + .5f, j + .5f, 0))) {
+						Vector3 bcScreen = barycentric(vToPs, Vector3(i + .5f, j + .5f, 0));
+						float z = 0;
+						for (auto i = 0; i < 3; z += vToPs[i].m_PosH.z() * bcScreen[i], ++i);
+						int index = int(i + j * image.width());
+						if (z > zBuffer[index]) {
+							VToP vToP{};
+							for (auto i = 0; i < 3; ++i) {
+								vToP.m_PosH += vToPs[i].m_PosH * bcScreen[i];
+								vToP.m_Normal += vToPs[i].m_Normal * bcScreen[i];
+								vToP.m_TexCoord += vToPs[i].m_TexCoord * bcScreen[i];
+								vToP.m_Color += vToPs[i].m_Color * bcScreen[i];
+							}
+							Color color = shader->pixelShader(vToP);
+							image.set(i, j, color);
+							zBuffer[index] = z;
+						}
+					}
+				}
+			}
+		}
 
 		//void Triangle::triangleWithoutExcess(const std::array<Vector3, 3>& ts, std::vector<float>& zBuffer, TGAImage& image, Color color, RenderFunc render)
 		//{
@@ -83,34 +119,6 @@ namespace DSM {
 		//}
 
 
-		//void Triangle::triangleWithCross(const std::array<Vector3, 3>& ts, std::vector<float>& zBuffer, TGAImage& image, Color color, RenderFunc render)
-		//{
-		//	// 最左下角的点和最右上角的点
-		//	Vector2 bMin(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
-		//	Vector2 bMax(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
-		//	Vector2 clamp(image.width() - 1, image.height() - 1);
-		//	for (int i = 0; i < 3; ++i) {
-		//		for (int j = 0; j < 2; ++j) {
-		//			bMin[j] = std::max(0.f, std::min(bMin[j], ts[i][j]));
-		//			bMax[j] = std::min(clamp[j], std::max(bMax[j], ts[i][j]));
-		//		}
-		//	}
-		//	// 遍历范围内的每一个点
-		//	for (auto i = std::floor(bMin.x()); i < bMax.x(); ++i) {
-		//		for (auto j = std::floor(bMin.y()); j < bMax.y(); ++j) {
-		//			if (inTriangle(ts, Vector3(i, j, 0))) {
-		//				Vector3 bcScreen = barycentric(ts, Vector3(i, j, 0));
-		//				float z = 0;
-		//				for (auto i = 0; i < 3; z += ts[i].z() * bcScreen[i], ++i);
-		//				int index = int(i + j * image.width());
-		//				if (z < zBuffer[index]) {
-		//					render(i, j, color);
-		//					zBuffer[index] = z;
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
 
 
 
@@ -126,8 +134,13 @@ namespace DSM {
 			return Vector3(1.f - (u.x() + u.y()) / u.z(), u.y() / u.z(), u.x() / u.z());
 		}
 
-		bool Triangle::inTriangle(const std::array<Vector3, 3>& ts, Vector3 p) noexcept
+		bool Triangle::inTriangle(const std::array<VToP, 3>& vToPs, Vector3 p) noexcept
 		{
+			Vector3 ts[3];
+			for (auto i = 0; i < 3; ++i) {
+				auto& v = vToPs[i].m_PosH;
+				ts[i] = Vector3{ v.x(),v.y(),v.z() };
+			}
 			Vector3 t0 = ts[0], t1 = ts[1], t2 = ts[2];
 			Vector3 e0 = t1 - t0, e1 = t2 - t1, e2 = t0 - t2;
 			Vector3 n0 = Vector3::cross(e0, t0 - p);

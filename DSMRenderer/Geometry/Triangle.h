@@ -16,12 +16,12 @@ namespace DSM {
 		public:
 			using RenderFunc = const std::function<Color(const Rendering::VToP&)>&;
 
-			static void triangleWithtBarycentric(const std::array<Rendering::VToP, 3>& vToPs, std::vector<float>& zBuffer, TGAImage& image, RenderFunc PS);
-			void triangleWithoutExcess(const std::array<Math::Vector3, 3>& ts, std::vector<float>& zBuffer, TGAImage& image, Color color, RenderFunc render);
-			static void triangleWithCross(const std::array<Math::Vector3, 3>& ts, std::vector<float>& zBuffer, TGAImage& image, Color color, RenderFunc render);
+			static void triangleWithtBarycentric(const std::array<Rendering::VToP, 3>& vToPs, std::vector<float>& zBuffer, TGAImage& image, const std::unique_ptr<Rendering::IShader>& shader);
+			//void triangleWithoutExcess(const std::array<Math::Vector3, 3>& ts, std::vector<float>& zBuffer, TGAImage& image, Color color, RenderFunc render);
+			static void triangleWithCross(const std::array<Rendering::VToP, 3>& vToPs, std::vector<float>& zBuffer, TGAImage& image, const std::unique_ptr<Rendering::IShader>& shader);
 
 		private:
-			static bool inTriangle(const std::array < Math::Vector3, 3 >& ts, Math::Vector3 p) noexcept;
+			static bool inTriangle(const std::array<Rendering::VToP, 3>& vToPs, Math::Vector3 p) noexcept;
 			static Math::Vector3 barycentric(const std::array<Rendering::VToP, 3>& vToPs, const Math::Vector3& P) noexcept;
 		};
 	}

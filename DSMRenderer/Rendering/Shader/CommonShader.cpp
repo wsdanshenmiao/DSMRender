@@ -9,7 +9,7 @@ namespace DSM {
 			VToP o;
 			Matrix4x4 VP = m_ConstData.m_Proj * m_ConstData.m_View;
 			o.m_PosH = VP * m_ConstData.m_World * v.m_PosL;
-			o.m_Normal = (Matrix3x3)m_ConstData.m_WorldInvTranspose * v.m_Normal;
+			o.m_Normal = (Matrix3x3)m_ConstData.m_WorldInvTranspose * v.m_Normal.normalized();
 			o.m_TexCoord = v.m_TexCoord;
 			o.m_Color = v.m_Color;
 			return o;

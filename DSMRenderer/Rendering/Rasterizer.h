@@ -22,6 +22,9 @@ namespace DSM {
 			int getHeight()const noexcept;
 
 		private:
+			void HomogeneousToScreen(Math::Vector4& posH) noexcept;
+
+		private:
 			std::shared_ptr<TGAImage> m_RenderTarget;
 			std::unique_ptr<IShader> m_Shader;
 			std::shared_ptr<Model> m_Model;
