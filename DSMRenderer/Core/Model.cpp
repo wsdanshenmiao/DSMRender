@@ -10,7 +10,7 @@ namespace DSM {
 
 	Model::Model(const std::string filename)
 	{
-		m_NoNormal = ModelLoader::LoadModel(filename, m_Mesh);
+		ModelLoader::LoadModel(filename, m_Mesh);
 	}
 
 	std::size_t Model::vertSize() const
@@ -31,6 +31,11 @@ namespace DSM {
 	Vector3& Model::getVertPos(const std::size_t& index) noexcept
 	{
 		return m_Mesh[index].m_Position;
+	}
+
+	bool Model::haveNormal() noexcept
+	{
+		return m_HaveNormal;
 	}
 
 

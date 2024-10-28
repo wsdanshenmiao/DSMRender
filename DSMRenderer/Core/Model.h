@@ -19,11 +19,12 @@ namespace DSM {
 
 		Vertex& getVert(const std::size_t& index) noexcept;
 		Math::Vector3& getVertPos(const std::size_t& index) noexcept;
+		bool haveNormal() noexcept;
 
 	private:
 		std::string m_Name;
 		std::vector<Vertex> m_Mesh;
-		bool m_NoNormal;
+		bool m_HaveNormal;
 	};
 }
 

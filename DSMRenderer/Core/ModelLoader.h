@@ -17,11 +17,11 @@ namespace DSM {
 	class ModelLoader
 	{
 	public:
-		static bool LoadModel(const std::string& filename, std::vector<Vertex>& mesh);
+		static void LoadModel(const std::string& filename, std::vector<Vertex>& mesh);
 
 	private:
 		static void split(const std::string& in, std::vector<std::string>& out, std::string token);
-		static bool LoadFacet(std::vector<Vertex>& mesh, std::string line,
+		static void LoadFacet(std::vector<Vertex>& mesh, std::string line,
 			const std::vector<Math::Vector3>& Positions,
 			const std::vector<Math::Vector2>& Texcoords,
 			const std::vector<Math::Vector3>& Normals);
