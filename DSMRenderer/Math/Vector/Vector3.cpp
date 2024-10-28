@@ -24,7 +24,7 @@ namespace DSM {
 
 		Vector3::operator Vector4() const noexcept
 		{
-			return Vector4{ x(),y(),z(),0 };
+			return Vector4{ x(),y(),z(),1 };
 		}
 
 		float& Vector3::x() noexcept

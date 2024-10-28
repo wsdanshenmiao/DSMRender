@@ -25,6 +25,11 @@ namespace DSM {
 		Vector4::Vector4(const float& x, const float& y, const float& z) noexcept
 			:VectorCRTP<float, 4, Vector4>({ x,y,z,0 }) {}
 
+		Vector4::operator Vector3() const noexcept
+		{
+			return Vector3{ x(),y(),z() };
+		}
+
 		float& Vector4::x() noexcept
 		{
 			return m_Data[0];

@@ -20,6 +20,8 @@ namespace DSM {
 			explicit Vector4(const float& v) noexcept;
 			explicit Vector4(const float& x, const float& y, const float& z) noexcept;
 
+			explicit operator Vector3() const noexcept;
+
 			float& x() noexcept;
 			float& y() noexcept;
 			float& z() noexcept;
