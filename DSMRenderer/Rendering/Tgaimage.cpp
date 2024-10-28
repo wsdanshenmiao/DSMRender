@@ -197,6 +197,9 @@ DSM::Color TGAImage::get(const int x, const int y) const {
 	DSM::Color ret = { 0, 0, 0, 0 };
 	const std::uint8_t* p = data.data() + (x + y * w) * bpp;
 	for (int i = bpp; i--; ret[i] = p[i]);
+	auto tmp = ret.r();
+	ret.r() = ret.b();
+	ret.b() = tmp;
 	return ret;
 }
 

@@ -6,26 +6,26 @@ namespace DSM {
 	namespace Rendering {
 		using namespace Math;
 
-		Rasterizer::Rasterizer(const std::shared_ptr<TGAImage>& target,
-			const std::shared_ptr<Model>& model,
-			std::unique_ptr<IShader>&& shader)
-			:m_RenderTarget(target), m_Model(model), m_Shader(std::move(shader)) {}
+		Rasterizer::Rasterizer(const std::shared_ptr<TGAImage>& target)
+			:m_RenderTarget(target) {}
 
 		void Rasterizer::draw()
 		{
-			std::vector<float> zBuffer(m_RenderTarget->width() * m_RenderTarget->height(), -std::numeric_limits<float>::max());
+			for (const auto& object : m_Objects) {
+				std::vector<float> zBuffer(m_RenderTarget->width() * m_RenderTarget->height(), -std::numeric_limits<float>::max());
 
-			for (auto i = 0; i < m_Model->facetSize(); ++i) {
-				std::array<VToP, 3> vToPs;
-				// 处理每个顶点
-				for (auto j = 0; j < 3; ++j) {
-					Vertex& vert = m_Model->getVert(i * 3 + j);
-					VertexData data = { vert.m_Position, vert.m_Normal, vert.m_TexCoord, Color::white() };
-					vToPs[j] = m_Shader->vertexShader(data);	// 顶点着色器
-					HomogeneousToScreen(vToPs[j].m_PosH);	// 从齐次空间变换到屏幕空间
+				for (auto i = 0; i < object.getModel()->facetSize(); ++i) {
+					std::array<VToP, 3> vToPs;
+					// 处理每个顶点
+					for (auto j = 0; j < 3; ++j) {
+						Vertex& vert = object.getModel()->getVert(i * 3 + j);
+						VertexData data = { vert.m_Position, vert.m_Normal, vert.m_TexCoord, Color::white() };
+						vToPs[j] = object.getShader()->vertexShader(data);	// 顶点着色器
+						HomogeneousToScreen(vToPs[j].m_PosH);	// 从齐次空间变换到屏幕空间
+					}
+					// 三角形光栅化
+					Geometry::Triangle::triangleWithCross(vToPs, zBuffer, *m_RenderTarget, object.getShader());
 				}
-				// 三角形光栅化
-				Geometry::Triangle::triangleWithCross(vToPs, zBuffer, *m_RenderTarget, m_Shader);
 			}
 		}
 
@@ -37,6 +37,11 @@ namespace DSM {
 		int Rasterizer::getHeight() const noexcept
 		{
 			return m_RenderTarget->height();
+		}
+
+		void Rasterizer::addObject(GameObject&& object) noexcept
+		{
+			m_Objects.push_back(std::forward<GameObject>(object));
 		}
 
 

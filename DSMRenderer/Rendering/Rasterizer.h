@@ -4,8 +4,7 @@
 
 #include <memory>
 #include "Tgaimage.h"
-#include "Shader/IShader.h"
-#include "../Core/Model.h"
+#include "../Core/GameObject.h"
 
 namespace DSM {
 	namespace Rendering {
@@ -13,21 +12,19 @@ namespace DSM {
 		class Rasterizer
 		{
 		public:
-			Rasterizer(const std::shared_ptr<TGAImage>& target,
-				const std::shared_ptr<Model>& model,
-				std::unique_ptr<IShader>&& shader);
+			Rasterizer(const std::shared_ptr<TGAImage>& target);
 
 			void draw();
 			int getWidth()const noexcept;
 			int getHeight()const noexcept;
+			void addObject(GameObject&& object) noexcept;
 
 		private:
 			void HomogeneousToScreen(Math::Vector4& posH) noexcept;
 
 		private:
 			std::shared_ptr<TGAImage> m_RenderTarget;
-			std::unique_ptr<IShader> m_Shader;
-			std::shared_ptr<Model> m_Model;
+			std::vector<GameObject> m_Objects;
 		};
 
 	}

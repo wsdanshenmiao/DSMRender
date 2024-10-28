@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\GameObject.cpp" />
+    <ClCompile Include="Core\Transform.cpp" />
     <ClCompile Include="Geometry\Line.cpp" />
     <ClCompile Include="Geometry\Triangle.cpp" />
     <ClCompile Include="Math\Vector\Vector2.cpp" />

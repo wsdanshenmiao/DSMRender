@@ -60,6 +60,12 @@
     <ClCompile Include="Source File\TestShader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Transform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Line.h">

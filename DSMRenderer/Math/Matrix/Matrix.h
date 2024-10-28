@@ -307,7 +307,7 @@ namespace DSM {
 		{
 			Matrix m{};
 			auto max = std::min(Row, Col);
-			for (std::size_t i = 0; i < max; m_Data[i][i] = 1, ++i);
+			for (std::size_t i = 0; i < max; m[i][i] = 1, ++i);
 			return m;
 		}
 

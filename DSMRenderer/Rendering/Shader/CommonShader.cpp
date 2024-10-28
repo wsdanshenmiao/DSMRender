@@ -30,7 +30,7 @@ namespace DSM {
 			auto a = col.a();
 			col *= diffuse;
 			col.a() = a;
-			return albedo;
+			return col;
 		}
 		void CommonShader::setTexture(std::shared_ptr<TGAImage> texture) noexcept
 		{
