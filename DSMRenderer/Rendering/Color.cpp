@@ -3,7 +3,7 @@
 namespace DSM {
 
 	Color::Color() noexcept
-		:m_Color({ 0,0,0,0 }) {}
+		:m_Color({ 255,255,255,255 }) {}
 
 	Color::Color(const std::uint8_t v) noexcept
 		:m_Color({ v, v, v, v }) {}
@@ -85,6 +85,13 @@ namespace DSM {
 		return *this;
 	}
 
+	Color& Color::operator+=(const std::uint8_t v) noexcept
+	{
+		Color ret{ v,v,v,v };
+		ret += *this;
+		return ret;
+	}
+
 	Color& Color::operator-=(const Color& other) noexcept
 	{
 		for (auto i = m_Color.size(); i--; m_Color[i] = std::max(m_Color[i] + other[i], 0));
@@ -159,6 +166,18 @@ namespace DSM {
 	{
 		Color ret{ left };
 		return ret += right;
+	}
+
+	Color operator+(const Color& col, const std::uint8_t v) noexcept
+	{
+		Color ret{ col };
+		ret += v;
+		return ret;
+	}
+
+	Color operator+(const std::uint8_t v, const Color& col) noexcept
+	{
+		return col + v;
 	}
 
 	Color operator-(const Color& left, const Color& right) noexcept

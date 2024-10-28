@@ -18,16 +18,23 @@ namespace DSM {
 		Color CommonShader::pixelShader(const VToP& i)
 		{
 			Color col = i.m_Color;
-			float indensity = 0;
+			Color albedo{};
+			Color diffuse = Color::black();
+			if (m_Texture != nullptr) {
+				albedo = sample2D(*m_Texture, i.m_TexCoord);
+			}
 			for (const auto& light : m_ConstData.m_DirLight) {
 				Vector3 dir = light.m_Dir.normalized();
-				indensity += dir * i.m_Normal;
+				diffuse = light.m_Color * albedo * std::max(0.f, i.m_Normal * light.m_Dir);
 			}
-			indensity = std::max(0.f, std::min(1.f, indensity));
 			auto a = col.a();
-			col *= indensity;
+			col *= diffuse;
 			col.a() = a;
-			return col;
+			return albedo;
+		}
+		void CommonShader::setTexture(std::shared_ptr<TGAImage> texture) noexcept
+		{
+			m_Texture = texture;
 		}
 	}
 }

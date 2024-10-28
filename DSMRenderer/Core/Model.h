@@ -4,6 +4,7 @@
 
 #include <vector>
 #include "ModelLoader.h"
+#include "../Rendering/Tgaimage.h"
 
 namespace DSM {
 	class Math::Vector2;
@@ -19,12 +20,15 @@ namespace DSM {
 
 		Vertex& getVert(const std::size_t& index) noexcept;
 		Math::Vector3& getVertPos(const std::size_t& index) noexcept;
-		bool haveNormal() noexcept;
+		std::shared_ptr<TGAImage> getDiffuse() noexcept;
+
+	private:
+		void loadTexture(std::string filename, const std::string suffix, TGAImage& texture);
 
 	private:
 		std::string m_Name;
 		std::vector<Vertex> m_Mesh;
-		bool m_HaveNormal;
+		std::shared_ptr<TGAImage> m_DiffuseTex;
 	};
 }
 

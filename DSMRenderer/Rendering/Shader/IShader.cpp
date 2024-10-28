@@ -28,6 +28,11 @@ namespace DSM {
 			m_ConstData.m_DirLight.push_back(light);
 		}
 
+		Color IShader::sample2D(const TGAImage& texture, const Math::Vector2& uv) noexcept
+		{
+			return texture.get(uv.x() * texture.width(), uv.y() * texture.height());
+		}
+
 
 	}
 

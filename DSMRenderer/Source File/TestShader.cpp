@@ -10,13 +10,14 @@ using namespace DSM::Rendering;
 void TestShader()
 {
 	std::shared_ptr renderTarget = std::make_shared<TGAImage>(512, 512, TGAImage::RGB);
-	std::shared_ptr model = std::make_shared<Model>("D:/Code/Computer Graphics/DSMRenderer/obj/Model/dragon.obj");
+	std::shared_ptr model = std::make_shared<Model>("D:/Code/Computer Graphics/DSMRenderer/obj/african_head/african_head.obj");
 	std::unique_ptr shader = std::make_unique<CommonShader>();
+	shader->setTexture(model->getDiffuse());
 	shader->setDirectionLight({ { 0,0,1 } ,Color::white() });
 	Matrix4x4 world;
-	world << .1, 0, 0, 0,
-		0, .1, 0, 0,
-		0, 0, .1, 0,
+	world << 1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
 		0, 0, 0, 1;
 	shader->setWorldMatrix(world);
 	Rasterizer rasterizer(renderTarget, model, std::move(shader));

@@ -30,6 +30,7 @@ namespace DSM {
 		std::uint8_t& operator[](const std::size_t& index) noexcept;
 		const std::uint8_t& operator[](const std::size_t& index) const noexcept;
 		Color& operator+=(const Color& other) noexcept;
+		Color& operator+=(const std::uint8_t v) noexcept;
 		Color& operator-=(const Color& other) noexcept;
 		Color& operator*=(const Color& other) noexcept;
 		Color& operator*=(const float& v) noexcept;
@@ -48,6 +49,8 @@ namespace DSM {
 
 
 	Color operator+(const Color& left, const Color& right) noexcept;
+	Color operator+(const Color& col, const std::uint8_t v) noexcept;
+	Color operator+(const std::uint8_t v, const Color& col) noexcept;
 	Color operator-(const Color& left, const Color& right) noexcept;
 	Color operator*(const Color& left, const Color& right) noexcept;
 	Color operator*(const Color& left, const float& v) noexcept;

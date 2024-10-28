@@ -5,6 +5,7 @@
 #include <vector>
 #include "../../Math/Vector/Vector.h"
 #include "../../Math/Matrix/Matrix.h"
+#include "../Tgaimage.h"
 #include "../Color.h"
 #include "../Light.h"
 
@@ -45,6 +46,8 @@ namespace DSM {
 			void setProjMatrix(const Math::Matrix4x4& proj) noexcept;
 			void setEyePosW(const Math::Vector3& pos) noexcept;
 			void setDirectionLight(const DirectionLight& light) noexcept;
+
+			static Color sample2D(const TGAImage& texture, const Math::Vector2& uv) noexcept;
 
 		protected:
 			CBuffer m_ConstData;
