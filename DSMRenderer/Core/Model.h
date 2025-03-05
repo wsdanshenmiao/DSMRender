@@ -20,7 +20,8 @@ namespace DSM {
 
 		Vertex& getVert(const std::size_t& index) noexcept;
 		Math::Vector3& getVertPos(const std::size_t& index) noexcept;
-		std::shared_ptr<TGAImage> getDiffuse() noexcept;
+		const TGAImage& getDiffuse() noexcept;
+		const TGAImage& getSpecular() noexcept;
 
 	private:
 		void loadTexture(std::string filename, const std::string suffix, TGAImage& texture);
@@ -28,7 +29,8 @@ namespace DSM {
 	private:
 		std::string m_Name;
 		std::vector<Vertex> m_Mesh;
-		std::shared_ptr<TGAImage> m_DiffuseTex;
+		TGAImage m_DiffuseTex;
+		TGAImage m_SpecularTex;
 	};
 }
 

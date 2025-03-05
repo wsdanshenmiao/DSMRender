@@ -36,6 +36,71 @@ namespace DSM {
 		return m_Scale;
 	}
 
+	Math::Matrix4x4 Transform::getTranslateMatrix() const noexcept
+	{
+		Matrix4x4 m{};
+		m << 1, 0, 0, m_Position.x(),
+			0, 1, 0, m_Position.y(),
+			0, 0, 1, m_Position.z(),
+			0, 0, 0, 1;
+		return m;
+	}
+
+	Math::Matrix4x4 Transform::getScaleMatrix() const noexcept
+	{
+		Matrix4x4 m{};
+		m << m_Scale.x(), 0, 0, 0,
+			0, m_Scale.y(), 0, 0,
+			0, 0, m_Scale.z(), 0,
+			0, 0, 0, 1;
+		return m;
+	}
+
+	Math::Matrix4x4 Transform::getRotateMatrix() const noexcept
+	{
+		return getRotateZMatrix() * getRotateYMatrix() * getRotateXMatrix();
+	}
+
+	Math::Matrix4x4 Transform::getRotateXMatrix() const noexcept
+	{
+		Matrix4x4 m{};
+		m << 1, 0, 0, 0,
+			0, std::cos(m_Rotate.x()), std::sin(m_Rotate.x()), 0,
+			0, -std::sin(m_Rotate.x()), std::cos(m_Rotate.x()), 0,
+			0, 0, 0, 1;
+		return m;
+	}
+
+	Math::Matrix4x4 Transform::getRotateYMatrix() const noexcept
+	{
+		Matrix4x4 m{};
+		m << std::cos(m_Rotate.y()), 0, -std::sin(m_Rotate.y()), 0,
+			0, 1, 0, 0,
+			std::sin(m_Rotate.y()), 0, std::cos(m_Rotate.y()), 0,
+			0, 0, 0, 1;
+		return m;
+	}
+
+	Math::Matrix4x4 Transform::getRotateZMatrix() const noexcept
+	{
+		Matrix4x4 m{};
+		m << std::cos(m_Rotate.z()), std::sin(m_Rotate.z()), 0, 0,
+			-std::sin(m_Rotate.z()), std::cos(m_Rotate.z()), 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1;
+		return m;
+	}
+
+	Matrix4x4 Transform::getWorldMatrix() const noexcept
+	{
+		return getTranslateMatrix() * getRotateMatrix() * getScaleMatrix();
+	}
+
+	Math::Matrix4x4 Transform::getWorldInvTransposeMatrix() const noexcept
+	{
+		return getWorldMatrix().invertTranspose();
+	}
+
 	void Transform::Rotate(const Math::Vector3& eulerAnglesInRadian) noexcept
 	{
 		m_Rotate += eulerAnglesInRadian;

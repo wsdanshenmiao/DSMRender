@@ -283,6 +283,13 @@ namespace DSM {
 		}
 
 		template <typename T, std::size_t N, typename Derived>
+		Derived operator-(const VectorCRTP<T, N, Derived>& right) noexcept
+		{
+			VectorCRTP<T, N, Derived> tmp(0);
+			return tmp -= right;
+		}
+
+		template <typename T, std::size_t N, typename Derived>
 		T operator*(const VectorCRTP<T, N, Derived>& left, const VectorCRTP<T, N, Derived>& right)
 		{
 			T ret = 0;

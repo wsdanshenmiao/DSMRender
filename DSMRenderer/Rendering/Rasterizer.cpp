@@ -13,18 +13,22 @@ namespace DSM {
 		{
 			for (const auto& object : m_Objects) {
 				std::vector<float> zBuffer(m_RenderTarget->width() * m_RenderTarget->height(), -std::numeric_limits<float>::max());
-
-				for (auto i = 0; i < object.getModel()->facetSize(); ++i) {
+				auto& model = object.getModel();
+				auto& shader = object.getShader();
+				shader->setWorldMatrix(object.getTransform().getWorldMatrix());
+				shader->setWorldInvTransposeMatrix(object.getTransform().getWorldInvTransposeMatrix());
+				for (auto i = 0; i < model->facetSize(); ++i) {
 					std::array<VToP, 3> vToPs;
 					// 处理每个顶点
 					for (auto j = 0; j < 3; ++j) {
-						Vertex& vert = object.getModel()->getVert(i * 3 + j);
-						VertexData data = { vert.m_Position, vert.m_Normal, vert.m_TexCoord, Color::white() };
-						vToPs[j] = object.getShader()->vertexShader(data);	// 顶点着色器
+						Vertex& vert = model->getVert(i * 3 + j);
+						Vector4 posH{ vert.m_Position.x(),vert.m_Position.y(),vert.m_Position.z(),1 };
+						VertexData data = { posH, vert.m_Normal, vert.m_TexCoord, Color::white() };
+						vToPs[j] = shader->vertexShader(data);	// 顶点着色器
 						HomogeneousToScreen(vToPs[j].m_PosH);	// 从齐次空间变换到屏幕空间
 					}
 					// 三角形光栅化
-					Geometry::Triangle::triangleWithCross(vToPs, zBuffer, *m_RenderTarget, object.getShader());
+					Geometry::Triangle::triangleWithCross(vToPs, zBuffer, *m_RenderTarget, shader);
 				}
 			}
 		}

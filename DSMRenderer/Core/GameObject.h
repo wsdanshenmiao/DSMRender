@@ -24,8 +24,8 @@ namespace DSM {
 		void setShader(std::unique_ptr<Rendering::IShader>&& pShader) noexcept;
 		const std::unique_ptr<Rendering::IShader>& getShader() const noexcept;
 
-		Transform& GetTransform() noexcept;
-		const Transform& GetTransform() const noexcept;
+		Transform& getTransform() noexcept;
+		const Transform& getTransform() const noexcept;
 
 	private:
 		std::unique_ptr<Model> m_pModel = nullptr;

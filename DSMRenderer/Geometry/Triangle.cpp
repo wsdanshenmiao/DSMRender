@@ -62,13 +62,7 @@ namespace DSM {
 						for (auto i = 0; i < 3; z += vToPs[i].m_PosH.z() * bcScreen[i], ++i);
 						int index = int(i + j * image.width());
 						if (z > zBuffer[index]) {
-							VToP vToP{};
-							for (auto i = 0; i < 3; ++i) {
-								vToP.m_PosH += vToPs[i].m_PosH * bcScreen[i];
-								vToP.m_Normal += vToPs[i].m_Normal * bcScreen[i];
-								vToP.m_TexCoord += vToPs[i].m_TexCoord * bcScreen[i];
-								vToP.m_Color += vToPs[i].m_Color * bcScreen[i];
-							}
+							VToP vToP = shader->linearInterpolation(vToPs, bcScreen);
 							Color color = shader->pixelShader(vToP);
 							image.set(i, j, color);
 							zBuffer[index] = z;

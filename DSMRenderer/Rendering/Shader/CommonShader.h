@@ -14,10 +14,6 @@ namespace DSM {
 		public:
 			VToP vertexShader(const VertexData& v) override;
 			Color pixelShader(const VToP& i) override;
-			void setTexture(std::shared_ptr<TGAImage> texture) noexcept;
-
-		private:
-			std::shared_ptr<TGAImage> m_Texture = nullptr;
 		};
 	}
 }

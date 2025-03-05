@@ -9,6 +9,7 @@ namespace DSM {
 			VToP o;
 			Matrix4x4 VP = m_ConstData.m_Proj * m_ConstData.m_View;
 			o.m_PosH = VP * m_ConstData.m_World * v.m_PosL;
+			o.m_PosW = (Vector3)(m_ConstData.m_World * v.m_PosL);
 			o.m_Normal = (Matrix3x3)m_ConstData.m_WorldInvTranspose * v.m_Normal.normalized();
 			o.m_TexCoord = v.m_TexCoord;
 			o.m_Color = v.m_Color;
@@ -17,24 +18,33 @@ namespace DSM {
 
 		Color CommonShader::pixelShader(const VToP& i)
 		{
-			Color col = i.m_Color;
 			Color albedo{};
+			std::uint8_t gloss = 255;
 			Color diffuse = Color::black();
-			if (m_Texture != nullptr) {
-				albedo = sample2D(*m_Texture, i.m_TexCoord);
+			Color specular = Color::black();
+			Vector3 viewDir = (m_ConstData.m_EyePosW - i.m_PosW).normalized();
+
+			if (auto tex = m_Textures.find("Diffuse"); tex != m_Textures.end()) {
+				albedo = sample2D(tex->second, i.m_TexCoord);
 			}
+			if (auto tex = m_Textures.find("Specular"); tex != m_Textures.end()) {
+				gloss = sample2D(tex->second, i.m_TexCoord).r();
+			}
+
 			for (const auto& light : m_ConstData.m_DirLight) {
-				Vector3 dir = light.m_Dir.normalized();
-				diffuse = light.m_Color * albedo * std::max(0.f, i.m_Normal * light.m_Dir);
+				Vector3 lightDir = -light.m_Dir.normalized();
+				Vector3 halfDir = (viewDir + lightDir).normalized();
+				Vector3 normal = i.m_Normal.normalized();
+				Vector3 dir = lightDir.normalized();
+				diffuse += light.m_Color * i.m_Color * albedo * std::max(0.f, normal * lightDir);
+				specular += light.m_Color * i.m_Color * std::pow(std::max(0.f, normal * halfDir), 40);
 			}
-			auto a = col.a();
-			col *= diffuse;
-			col.a() = a;
+
+			Color ambient = albedo * .08f;
+			Color col = diffuse + specular + ambient;
+			col.a() = albedo.a();
+
 			return col;
-		}
-		void CommonShader::setTexture(std::shared_ptr<TGAImage> texture) noexcept
-		{
-			m_Texture = texture;
 		}
 	}
 }

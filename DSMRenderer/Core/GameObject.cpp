@@ -22,12 +22,12 @@ namespace DSM {
 		return m_Shader;
 	}
 
-	Transform& GameObject::GetTransform() noexcept
+	Transform& GameObject::getTransform() noexcept
 	{
 		return m_Transform;
 	}
 
-	const Transform& GameObject::GetTransform() const noexcept
+	const Transform& GameObject::getTransform() const noexcept
 	{
 		return m_Transform;
 	}

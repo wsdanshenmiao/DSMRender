@@ -11,8 +11,8 @@ namespace DSM {
 	Model::Model(const std::string filename)
 	{
 		ModelLoader::LoadModel(filename, m_Mesh);
-		m_DiffuseTex = std::make_shared<TGAImage>();
-		loadTexture(filename, "_diffuse.tga", *m_DiffuseTex);
+		loadTexture(filename, "_diffuse.tga", m_DiffuseTex);
+		loadTexture(filename, "_spec.tga", m_SpecularTex);
 	}
 
 	std::size_t Model::vertSize() const
@@ -35,9 +35,14 @@ namespace DSM {
 		return m_Mesh[index].m_Position;
 	}
 
-	std::shared_ptr<TGAImage> Model::getDiffuse() noexcept
+	const TGAImage& Model::getDiffuse() noexcept
 	{
 		return m_DiffuseTex;
+	}
+
+	const TGAImage& Model::getSpecular() noexcept
+	{
+		return m_SpecularTex;
 	}
 
 	void Model::loadTexture(std::string filename, const std::string suffix, TGAImage& texture)

@@ -25,6 +25,14 @@ namespace DSM {
 
 		Math::Vector3 getPosition() const noexcept;
 		Math::Vector3 getScale() const noexcept;
+		Math::Matrix4x4 getTranslateMatrix() const noexcept;
+		Math::Matrix4x4 getScaleMatrix() const noexcept;
+		Math::Matrix4x4 getRotateMatrix() const noexcept;
+		Math::Matrix4x4 getRotateXMatrix() const noexcept;
+		Math::Matrix4x4 getRotateYMatrix() const noexcept;
+		Math::Matrix4x4 getRotateZMatrix() const noexcept;
+		Math::Matrix4x4 getWorldMatrix() const noexcept;
+		Math::Matrix4x4 getWorldInvTransposeMatrix() const noexcept;
 
 		void Rotate(const Math::Vector3& eulerAnglesInRadian) noexcept;
 		void Translate(const Math::Vector3& direction, float magnitude) noexcept;
